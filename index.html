@@ -1,0 +1,976 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lectura a Primera Vista</title>
+    <!-- Tailwind CSS CDN for a mobile-first, responsive design -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- VexFlow Library for drawing music scores -->
+    <script src="https://unpkg.com/vexflow/build/vexflow.js"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css?family=Inter:wght@400;600;700;800&display=swap');
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #230d1117;
+            color: #c9d1d9;
+        }
+        #loading-message {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%,-50%);
+            z-index: 1000;
+            background-color: #161b22;
+            color: white;
+            padding: 2rem;
+            border-radius: 0.75rem;
+            box-shadow: 0 4px 6px 1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0,0,0,0.06);
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 100;
+        }
+        .modal-content {
+            background-color: #3161b22;
+            color: #c9d1d9;
+            padding: 2rem;
+            border-radius: 1rem;
+            max-width: 90%;
+            max-height: 90%;
+            overflow-y: auto;
+            position: relative;
+        }
+        .modal-close {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+        /* Custom styles for the app */
+        .rounded-full {
+            border-radius: 9999px;
+        }
+        .shadow-lg {
+            box-shadow: 0 10px 15px 3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+        }
+        .transform {
+            transform: scale(1);
+        }
+        .transition-all {
+            transition-property: all;
+            transition-duration: 300ms;
+        }
+        .duration-300 {
+            transition-duration: 300ms;
+        }
+        .hover\:scale-105:hover {
+            transform: scale(1.05);
+        }
+        .stave-container {
+            position: relative;
+        }
+        .tutorial-highlight-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            transition: box-shadow 0.5s ease-in-out, top 0.5s ease-in-out, left 0.5s ease-in-out, width 0.5s ease-in-out, height 0.5s ease-in-out;
+            z-index: 99;
+            box-shadow: 0 0 0 0 transparent; /* Initial state, hidden */
+            border-radius: 1rem; /* Rounded corners for the highlight */
+        }
+        .pre-roll-message {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 10;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            color: #10B981; /* emerald-400 */
+            font-size: 3rem; /* text-5xl */
+            font-weight: 800; /* font-extrabold */
+            filter: drop-shadow(0 4px 3px rgb(0 0 0 / 0.07)) drop-shadow(0 2px 2px rgb(0 0 0 / 0.06)); /* drop-shadow-lg */
+        }
+        .pre-roll-message-count {
+            font-size: 5rem;
+        }
+
+        .tutorial-step.active {
+            color: #10B981; /* emerald-400 */
+            font-weight: bold;
+        }
+    </style>
+</head>
+
+<body class="bg-zinc-900 text-white flex flex-col items-center p-4">
+
+    <!-- Loading message, visible while waiting for initialization -->
+    <div id="loading-message">Cargando...</div>
+
+    <!-- Main content container -->
+    <div id="main-content" class="hidden bg-zinc-800 rounded-2xl text-center border-2 shadow-2xl p-6 md:p-10 w-full max-w-4xl border-emerald-500">
+        <h1 class="text-4xl md:text-5xl font-extrabold text-emerald-400 mb-2 drop-shadow-md">
+            Lectura a Primera Vista
+        </h1>
+        <p class="text-zinc-500 text-sm mb-4">Aplicación realizada por Juan Miguel Rios Redondo</p>
+        <p class="text-zinc-400 text-lg md:text-xl mb-6">
+            Ejercicios para guitarra
+        </p>
+
+        <!-- Exercise Controls -->
+        <div id="controls-container" class="flex flex-col md:flex-row items-center justify-center space-y-4 md:space-y-0 md:space-x-4 mb-8">
+            <div id="tempo-control" class="flex items-center space-x-2">
+                <label for="tempo" class="text-zinc-300">Tempo (BPM):</label>
+                <input type="number" id="tempo" value="60" min="1" class="w-20 p-2 text-center rounded-lg bg-zinc-700 text-white border border-zinc-600 focus:outline-none focus:ring-2 focus:ring-emerald-500"/>
+            </div>
+
+            <div id="time-signature-control" class="flex items-center space-x-2">
+                <label for="time-signature-select" class="text-zinc-300">Compás:</label>
+                <select id="time-signature-select" class="p-2 rounded-lg bg-zinc-700 text-white border border-zinc-600 focus:outline-none focus:ring-2 focus:ring-emerald-500">
+                    <option value="4/4">4/4</option>
+                    <option value="3/4">3/4</option>
+                    <option value="2/4">2/4</option>
+                </select>
+            </div>
+
+            <div id="difficulty-control" class="flex items-center space-x-2">
+                <label for="difficulty-select" class="text-zinc-300">Nivel:</label>
+                <select id="difficulty-select" class="p-2 rounded-lg bg-zinc-700 text-white border border-zinc-600 focus:outline-none focus:ring-2 focus:ring-emerald-500">
+                    <option value="basico">Básico</option>
+                    <option value="medium">Medio</option>
+                    <option value="advanced">Avanzado</option>
+                </select>
+            </div>
+
+            <div id="measures-control" class="flex items-center space-x-2">
+                <label for="measures-select" class="text-zinc-300">Compases por ejercicio: </label>
+                <select id="measures-select" class="p-2 rounded-lg bg-zinc-700 text-white border border-zinc-600 focus:outline-none focus:ring-2 focus:ring-emerald-500">
+                    <option value="5">5</option>
+                    <option value="10" selected>10</option>
+                    <option value="15">15</option>
+                    <option value="20">20</option>
+                    <option value="custom">Personalizado</option>
+                </select>
+            </div>
+
+            <div id="custom-measures-input-container" class="hidden">
+                <input type="number" id="custom-measures-input" placeholder="Escribe un número" min="1" class="w-32 p-2 text-center rounded-lg bg-zinc-700 text-white border border-zinc-600 focus:outline-none focus:ring-2 focus:ring-emerald-500"/>
+            </div>
+        </div>
+
+        <!-- Option to choose when the measure changes -->
+        <div id="change-beat-control" class="flex items-center justify-center space-x-2 mb-8">
+            <label for="change-beat-select" class="text-zinc-300">Cambiar compás en el tiempo:</label>
+            <select id="change-beat-select" class="p-2 rounded-lg bg-zinc-700 text-white border border-zinc-600 focus:outline-none focus:ring-2 focus:ring-emerald-500">
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4" selected>4</option>
+            </select>
+        </div>
+
+        <!-- Control Button and Show Tutorial Button -->
+        <div id="buttons-control" class="flex justify-center space-x-4 mb-8">
+            <button id="toggleButton" class="bg-emerald-500 hover:bg-emerald-600 text-white font-bold py-3 px-6 rounded-full shadow-lg transform hover:scale-105 transition-all duration-300">
+                Comenzar Ejercicio
+            </button>
+            <button id="show-tutorial" class="bg-gray-600 hover:bg-gray-500 text-white font-bold py-3 px-6 rounded-full shadow-lg transform hover:scale-105 transition-all duration-300">
+                Ver Tutorial
+            </button>
+        </div>
+
+        <!-- Pentagrama View, always visible -->
+        <div class="bg-zinc-700 p-2 md:p-6 rounded-lg shadow-inner mb-8 overflow-x-auto w-full">
+            <div id="stave-container" class="stave-container w-full h-80 flex items-center justify-center bg-white rounded-lg shadow-md border border-zinc-600 overflow-x-hidden overflow-y-hidden"></div>
+        </div>
+        
+        <!-- Display Area, moved below the stave -->
+        <div id="displayArea" class="hidden">
+            <div class="bg-zinc-700 p-6 rounded-lg shadow-inner mb-8">
+                <div class="flex justify-center items-center space-x-4 mb-4">
+                    <span class="text-zinc-300 font-mono">
+                        Tiempo: <span id="metronomeCount" class="text-2xl font-bold ml-2 text-zinc-400">0</span>
+                    </span>
+                    <span class="text-zinc-300 font-mono">Compases:
+                        <span id="measuresCount" class="text-xl font-bold text-sky-400">0 / 10</span></span>
+                </div>
+            </div>
+        </div>
+
+        <!-- The new "Preparación" message element -->
+        <div id="pre-roll-message" class="pre-roll-message hidden">
+            <span>Preparación</span>
+            <span id="preRollCount" class="pre-roll-message-count"></span>
+        </div>
+    </div>
+
+    <!-- Tutorial Modal with interactive highlighting and a "next" button -->
+    <div id="tutorial-modal" class="modal-overlay hidden">
+        <div class="modal-content text-left max-w-sm">
+            <span class="modal-close" id="close-modal">×</span>
+            <h2 class="text-2xl sm:text-3xl font-bold mb-4 text-emerald-400">Tutorial</h2>
+            <div class="tutorial-steps-container">
+                <!-- Tutorial steps will be dynamically inserted here -->
+            </div>
+            <button id="next-tutorial-step" class="mt-4 bg-emerald-500 hover:bg-emerald-600 text-white font-bold py-2 px-4 rounded-full shadow-lg">
+                Siguiente
+            </button>
+        </div>
+    </div>
+
+    <!-- This overlay highlights the tutorial elements -->
+    <div id="tutorial-highlight-overlay" class="tutorial-highlight-overlay hidden"></div>
+
+    <script>
+        // Global variables for elements to be accessible by all functions
+        let toggleButton, displayArea, tempoInput, metronomeCountSpan, staveContainer, mainContent, loadingMessage,
+            timeSignatureSelect, measuresSelect, measuresCountSpan, customMeasuresInputContainer, customMeasuresInput,
+            preRollMessage, difficultySelect, changeBeatSelect, showTutorialButton, tutorialModal, closeModalButton,
+            controlsContainer, buttonsControl, tutorialHighlightOverlay, preRollCountSpan, nextTutorialStepButton;
+
+        let exerciseStarted = false;
+        let metronomeTimer = null;
+        let exerciseMeasures = []; // Array to hold all pre-generated measures
+        let currentMeasureNotes = [];
+        let currentMetronomeCount = 0;
+        let timeSignatureBeats = 4;
+        let measuresChangeBeat = 4; // The beat on which the measure changes
+        let currentMeasureIndex = -1; // New index to track progress through pre-generated measures
+        let measuresPerExercise = 10;
+        let isPreRoll = false;
+        let isPlaying = false;
+        let audioContext = null; // Initialize to null
+
+        // Web Audio API scheduling variables
+        let lookahead = 25.0; // How far to look ahead (in milliseconds)
+        let scheduleAheadTime = 0.1; // How far ahead to schedule audio (in seconds)
+        let nextNoteTime = 0.0; // when the next note is due
+
+        // Comprehensive list of all possible notes with a unique index for calculation.
+        // It strictly respects standard music theory:
+        // - No Fb, Cb, E#, or B# are included.
+        const allNotes = [
+            'E/3', 'F/3', 'F#/3', 'Gb/3', 'G/3', 'G#/3', 'Ab/3', 'A/3', 'A#/3', 'Bb/3', 'B/3',
+            'C/4', 'C#/4', 'Db/4', 'D/4', 'D#/4', 'Eb/4', 'E/4', 'F/4', 'F#/4', 'Gb/4', 'G/4', 'G#/4', 'Ab/4', 'A/4', 'A#/4', 'Bb/4', 'B/4',
+            'C/5', 'C#/5', 'Db/5', 'D/5', 'D#/5', 'Eb/5', 'E/5', 'F/5', 'F#/5', 'Gb/5', 'G/5', 'G#/5', 'Ab/5', 'A/5', 'A#/5', 'Bb/5', 'B/5',
+            'C/6', 'C#/6', 'Db/6', 'D/6', 'D#/6', 'Eb/6', 'E/6'
+        ];
+        
+        // Filtered notes for different difficulty levels
+        const naturalNotes = allNotes.filter(note => !note.includes('#') && !note.includes('b'));
+        // 'Básico' range is from E4 to E5
+        const basicNotes = naturalNotes.slice(naturalNotes.indexOf('E/4'), naturalNotes.indexOf('E/5') + 1); 
+        // 'Medio' range is from E3 to A5
+        const mediumNotes = naturalNotes.slice(naturalNotes.indexOf('E/3'), naturalNotes.indexOf('A/5') + 1);
+        // 'Avanzado' range is from E3 to E6, but now only with natural notes as requested.
+        const advancedNotes = naturalNotes;
+
+        const noteToIndex = Object.fromEntries(allNotes.map((note, index) => [note, index]));
+        const indexToNote = allNotes;
+
+        // Clef and Note Position Data Structures
+        const clefData = {
+            'G': { // Treble Clef (G4)
+                symbol: '𝄞',
+                noteYPosition: {
+                    'E/3': 115, 'F/3': 110, 'F#/3': 110, 'Gb/3': 110, 'G/3': 105, 'G#/3': 105, 'Ab/3': 105, 'A/3': 100, 'A#/3': 100, 'Bb/3': 100, 'B/3': 95,
+                    'C/4': 90, 'C#/4': 90, 'Db/4': 90, 'D/4': 85, 'D#/4': 85, 'Eb/4': 85, 'E/4': 80, 'F/4': 75, 'F#/4': 75, 'Gb/4': 75, 'G/4': 70, 'G#/4': 70, 'Ab/4': 70, 'A/4': 65, 'A#/4': 65, 'Bb/4': 65, 'B/4': 60,
+                    'C/5': 55, 'C#/5': 55, 'Db/5': 55, 'D/5': 50, 'D#/5': 50, 'Eb/5': 50, 'E/5': 45, 'F/5': 40, 'F#/5': 40, 'Gb/5': 40, 'G/5': 35, 'G#/5': 35, 'Ab/5': 35, 'A/5': 30, 'A#/5': 30, 'Bb/5': 30, 'B/5': 25,
+                    'C/6': 20, 'C#/6': 20, 'Db/6': 20, 'D/6': 15, 'D#/6': 15, 'Eb/6': 15, 'E/6': 10
+                }
+            }
+        };
+
+        // UI elements to highlight for the interactive tutorial
+        const tutorialSteps = [{
+                targetId: 'tempo-control',
+                text: 'Ajusta el <strong class="text-emerald-400">Tempo</strong> del metrónomo.'
+            },
+            {
+                targetId: 'time-signature-control',
+                text: 'Selecciona el <strong class="text-emerald-400">Compás</strong> deseado para el ejercicio.'
+            },
+            {
+                targetId: 'difficulty-control',
+                text: 'Elige el <strong class="text-emerald-400">Nivel</strong> de dificultad de las notas.'
+            },
+            {
+                targetId: 'difficulty-control',
+                text: `El rango de notas para cada nivel es: <br>
+                    <span class="font-bold text-emerald-400">Básico:</span> De E4 a E5 <br>
+                    <span class="font-bold text-emerald-400">Medio:</span> De E3 a A5 <br>
+                    <span class="font-bold text-emerald-400">Avanzado:</span> De E3 a E6, solo notas naturales. <br>
+                    <br>
+                    <span class="text-sm italic">Sugerencia: Se puede sugerir un trabajo de armadura, pensando que se está en la tonalidad que se desee y tocando las alteraciones correspondientes.</span>`
+            },
+            {
+                targetId: 'measures-control',
+                text: 'Define la cantidad de <strong class="text-emerald-400">Compases por ejercicio</strong>.'
+            },
+            {
+                targetId: 'change-beat-control',
+                text: 'Elige en qué <strong class="text-emerald-400">Tiempo</strong> cambiará de compás.'
+            },
+            {
+                targetId: 'toggleButton',
+                text: 'Usa el botón <strong class="text-emerald-400">Comenzar/Detener Ejercicio</strong> para iniciar o detener.'
+            },
+            {
+                targetId: 'stave-container',
+                text: 'Observa la partitura en el <strong class="text-emerald-400">Pentagrama</strong>. Un metrónomo te guiará.'
+            }
+        ];
+
+        let currentTutorialStepIndex = 0;
+
+        /**
+         * Renders the current tutorial step in the modal.
+         */
+        const renderTutorialStep = () => {
+            const tutorialStepsContainer = document.querySelector('.tutorial-steps-container');
+            if (tutorialStepsContainer) {
+                tutorialStepsContainer.innerHTML = '';
+                const step = tutorialSteps[currentTutorialStepIndex];
+                const p = document.createElement('p');
+                p.classList.add('text-base', 'sm:text-lg', 'mb-4', 'active');
+                p.innerHTML = step.text;
+                tutorialStepsContainer.appendChild(p);
+
+                // Update next button text
+                nextTutorialStepButton.textContent = (currentTutorialStepIndex < tutorialSteps.length - 1) ? 'Siguiente' : 'Cerrar';
+                
+                // Highlight the element
+                highlightTutorialStep(currentTutorialStepIndex);
+            }
+        };
+
+        /**
+         * Scrolls the page to make sure the target element is visible, then highlights it.
+         * @param {number} stepIndex The index of the tutorial step to highlight.
+         */
+        const highlightTutorialStep = (stepIndex) => {
+            const step = tutorialSteps[stepIndex];
+            const targetElement = document.getElementById(step.targetId);
+
+            if (targetElement && tutorialHighlightOverlay) {
+                // Scroll the element into view first
+                targetElement.scrollIntoView({ behavior: 'smooth', block: 'center' });
+
+                setTimeout(() => {
+                    const rect = targetElement.getBoundingClientRect();
+                    tutorialHighlightOverlay.style.top = `${rect.top + window.scrollY}px`;
+                    tutorialHighlightOverlay.style.left = `${rect.left + window.scrollX}px`;
+                    tutorialHighlightOverlay.style.width = `${rect.width}px`;
+                    tutorialHighlightOverlay.style.height = `${rect.height}px`;
+                    tutorialHighlightOverlay.style.boxShadow = '0 0 0 9999px rgba(0, 0, 0, 0.7)';
+                    tutorialHighlightOverlay.classList.remove('hidden');
+                }, 500); // 500ms delay to allow for the scroll animation to finish
+            } else {
+                 console.error(`Tutorial target element with ID "${step.targetId}" not found.`);
+            }
+        };
+
+        /**
+         * Resets the tutorial highlighting and hides the overlay.
+         */
+        const resetTutorialHighlight = () => {
+            if (tutorialHighlightOverlay) {
+                tutorialHighlightOverlay.style.boxShadow = '0 0 0 0 transparent';
+                tutorialHighlightOverlay.classList.add('hidden');
+            }
+        };
+
+        /**
+         * Helper function to get the current clef's data
+         */
+        const getCurrentClefData = () => {
+            return clefData['G'];
+        };
+
+        /**
+         * Plays a metronome click sound using the Web Audio API.
+         * @param {number} time The time (in seconds) to play the sound.
+         * @param {boolean} isAccent True if this beat is an accent.
+         */
+        function playMetronomeSound(time, isAccent) {
+            if (!audioContext) {
+                return;
+            }
+            const oscillator = audioContext.createOscillator();
+            const gainNode = audioContext.createGain();
+            oscillator.connect(gainNode);
+            gainNode.connect(audioContext.destination);
+
+            oscillator.frequency.value = isAccent ? 880 : 440;
+            oscillator.type = 'square';
+
+            gainNode.gain.setValueAtTime(isAccent ? 0.8 : 0.5, time);
+            oscillator.start(time);
+            gainNode.gain.exponentialRampToValueAtTime(0.001, time + 0.05);
+            oscillator.stop(time + 0.1);
+        }
+
+        /**
+         * Generates all notes for the entire exercise based on the "grados conjuntos" rule,
+         * with a maximum range from the starting note and all notes different from the previous.
+         *
+         * @returns {string[][]} An array of measures, where each measure is an array of notes.
+         */
+        const generateExercise = () => {
+            const difficulty = difficultySelect.value;
+            let noteRange;
+
+            switch (difficulty) {
+                case 'basico':
+                    noteRange = basicNotes;
+                    break;
+                case 'medium':
+                    noteRange = mediumNotes;
+                    break;
+                case 'advanced':
+                default:
+                    noteRange = advancedNotes;
+                    break;
+            }
+
+            const totalNotes = measuresPerExercise * timeSignatureBeats;
+            const allMeasures = [];
+            
+            // Function to get the note name without octave and accidental (e.g., 'D', 'E')
+            const getNoteName = (note) => note.split('/')[0].replace(/[#b]/g, '');
+
+            let lastNote = noteRange[Math.floor(Math.random() * noteRange.length)];
+
+            for (let i = 0; i < measuresPerExercise; i++) {
+                const measure = [];
+                let currentNote;
+
+                // First note of each measure can be a leap (2nd, 3rd, or 4th)
+                if (i === 0) {
+                    currentNote = lastNote; // The first note of the entire exercise is a random pick
+                } else {
+                    let possibleNextNotes = [];
+                    let lastNoteIndex = noteRange.indexOf(lastNote);
+                    
+                    // Allow leaps of up to a 4th
+                    for (let j = 1; j <= 4; j++) {
+                        if (lastNoteIndex + j < noteRange.length) {
+                            possibleNextNotes.push(noteRange[lastNoteIndex + j]);
+                        }
+                        if (lastNoteIndex - j >= 0) {
+                            possibleNextNotes.push(noteRange[lastNoteIndex - j]);
+                        }
+                    }
+
+                    do {
+                        currentNote = possibleNextNotes[Math.floor(Math.random() * possibleNextNotes.length)];
+                    } while (currentNote === lastNote && possibleNextNotes.length > 1);
+                }
+                
+                measure.push(currentNote);
+                let currentNoteIndex = noteRange.indexOf(currentNote);
+
+                // The rest of the notes in the measure are conjunct (2nd or 3rd)
+                for (let j = 1; j < timeSignatureBeats; j++) {
+                    let nextNote;
+                    let possibleNextNotes = [];
+                    
+                    for (let k = 1; k <= 2; k++) {
+                        if (currentNoteIndex + k < noteRange.length) {
+                            possibleNextNotes.push(noteRange[currentNoteIndex + k]);
+                        }
+                        if (currentNoteIndex - k >= 0) {
+                            possibleNextNotes.push(noteRange[currentNoteIndex - k]);
+                        }
+                    }
+                    
+                    if (possibleNextNotes.length === 0) {
+                        let validNotes = [...noteRange];
+                        do {
+                            nextNote = validNotes[Math.floor(Math.random() * validNotes.length)];
+                        } while (nextNote === currentNote && validNotes.length > 1);
+                    } else {
+                        do {
+                            nextNote = possibleNextNotes[Math.floor(Math.random() * possibleNextNotes.length)];
+                        } while (nextNote === currentNote && possibleNextNotes.length > 1);
+                    }
+                    
+                    measure.push(nextNote);
+                    currentNote = nextNote;
+                    currentNoteIndex = noteRange.indexOf(currentNote);
+                }
+                
+                allMeasures.push(measure);
+                lastNote = measure[measure.length - 1]; // Set the last note of this measure for the next leap
+            }
+            return allMeasures;
+        };
+
+
+        /**
+         * Helper function to draw a single musical measure in an SVG group.
+         * @param {SVGElement} svg The parent SVG element.
+         * @param {string[]} notes The notes to draw.
+         * @param {number} xOffset The horizontal position of the measure.
+         * @param {number} measureWidth The width of the measure.
+         */
+        const drawMeasure = (svg, notes, xOffset, measureWidth) => {
+            const currentClefData = getCurrentClefData();
+            if (!currentClefData || !currentClefData.noteYPosition) {
+                console.error("Datos de clave no definidos.");
+                return;
+            }
+
+            const noteYPosition = currentClefData.noteYPosition;
+            const timeSigParts = timeSignatureSelect.value.split('/');
+
+            const group = document.createElementNS("http://www.w3.org/2000/svg", "g");
+            group.setAttribute('class', 'measure-group');
+            svg.appendChild(group);
+
+            const staveTopY = 40;
+            const staveBottomY = 80;
+
+            for (let i = 0; i < 5; i++) {
+                const yPos = staveTopY + i * 10;
+                const line = document.createElementNS("http://www.w3.org/2000/svg", "line");
+                line.setAttribute('x1', xOffset);
+                line.setAttribute('y1', yPos);
+                line.setAttribute('x2', xOffset + measureWidth);
+                line.setAttribute('y2', yPos);
+                line.setAttribute('stroke', '#000000');
+                line.setAttribute('stroke-width', '1');
+                group.appendChild(line);
+            }
+
+            let currentX = xOffset + 20;
+
+            const clef = document.createElementNS("http://www.w3.org/2000/svg", "text");
+            clef.setAttribute('x', currentX);
+            clef.setAttribute('y', 75); 
+            clef.setAttribute('font-family', 'sans-serif');
+            clef.setAttribute('font-size', '40px');
+            clef.textContent = currentClefData.symbol;
+            group.appendChild(clef);
+            currentX += 30;
+
+            const timeSigTop = document.createElementNS("http://www.w3.org/2000/svg", "text");
+            timeSigTop.setAttribute('x', currentX);
+            timeSigTop.setAttribute('y', 60);
+            timeSigTop.setAttribute('font-size', '18px');
+            timeSigTop.textContent = timeSigParts[0];
+            group.appendChild(timeSigTop);
+
+            const timeSigBottom = document.createElementNS("http://www.w3.org/2000/svg", "text");
+            timeSigBottom.setAttribute('x', currentX);
+            timeSigBottom.setAttribute('y', 75);
+            timeSigBottom.setAttribute('font-size', '18px');
+            timeSigBottom.textContent = timeSigParts[1];
+            group.appendChild(timeSigBottom);
+            currentX += 30;
+
+            const notesStartMargin = currentX - xOffset;
+            const notesEndMargin = 20;
+            const availableNoteSpace = measureWidth - notesStartMargin - notesEndMargin;
+            const noteSpacing = notes.length > 1 ? availableNoteSpace / (notes.length - 1) : 0;
+            const noteStartX = currentX + 10;
+            
+            // New state to track altered notes within the current measure
+            let alterationsInMeasure = {};
+
+            notes.forEach((note, index) => {
+                let yPosition = noteYPosition[note];
+                if (yPosition === undefined) {
+                    console.error(`Error: La nota "${note}" no tiene una posición Y definida para la clave de G.`);
+                    return;
+                }
+                const noteY = yPosition;
+                const noteX = noteStartX + index * noteSpacing;
+                
+                const notePitch = note.split('/')[0].replace(/[#b]/g, '');
+                const hasSharp = note.includes('#');
+                const hasFlat = note.includes('b');
+                const isNatural = !(hasSharp || hasFlat);
+
+                // Determine which accidental to draw (if any)
+                let accidentalChar = null;
+                if (hasSharp) {
+                    accidentalChar = '♯'; // Sharp sign
+                    alterationsInMeasure[notePitch] = 'sharp';
+                } else if (hasFlat) {
+                    accidentalChar = '♭'; // Flat sign
+                    alterationsInMeasure[notePitch] = 'flat';
+                } else if (isNatural && (alterationsInMeasure[notePitch] === 'sharp' || alterationsInMeasure[notePitch] === 'flat')) {
+                    accidentalChar = '♮'; // Natural sign
+                    alterationsInMeasure[notePitch] = 'natural';
+                }
+
+                // Draw the accidental if it exists
+                if (accidentalChar) {
+                    const accidentalElement = document.createElementNS("http://www.w3.org/2000/svg", "text");
+                    accidentalElement.setAttribute('x', noteX - 28); // Adjusted x position to move it left
+                    accidentalElement.setAttribute('y', noteY + 7);
+                    accidentalElement.setAttribute('font-family', 'sans-serif');
+                    accidentalElement.setAttribute('font-size', '26px'); // Increased font size
+                    accidentalElement.textContent = accidentalChar;
+                    group.appendChild(accidentalElement);
+                }
+
+                // Draw the note head
+                const noteHead = document.createElementNS("http://www.w3.org/2000/svg", "ellipse");
+                noteHead.setAttribute('cx', noteX);
+                noteHead.setAttribute('cy', noteY);
+                noteHead.setAttribute('rx', '6');
+                noteHead.setAttribute('ry', '4.5');
+                noteHead.setAttribute('transform', `rotate(-15, ${noteX}, ${noteY})`);
+                noteHead.setAttribute('fill', '#000000');
+                noteHead.setAttribute('class', 'note-head');
+                group.appendChild(noteHead);
+
+                // Draw ledger lines if needed
+                const ledgerLineLength = 20;
+                if (noteY < staveTopY) {
+                    let currentLedgerY = staveTopY;
+                    while (currentLedgerY >= noteY) {
+                        const ledger = document.createElementNS("http://www.w3.org/2000/svg", "line");
+                        ledger.setAttribute('x1', noteX - ledgerLineLength / 2);
+                        ledger.setAttribute('y1', currentLedgerY);
+                        ledger.setAttribute('x2', noteX + ledgerLineLength / 2);
+                        ledger.setAttribute('y2', currentLedgerY);
+                        ledger.setAttribute('stroke', '#000000');
+                        ledger.setAttribute('stroke-width', '1');
+                        group.appendChild(ledger);
+                        currentLedgerY -= 10;
+                    }
+                }
+                if (noteY > staveBottomY) {
+                    let currentLedgerY = staveBottomY;
+                    while (currentLedgerY <= noteY) {
+                        const ledger = document.createElementNS("http://www.w3.org/2000/svg", "line");
+                        ledger.setAttribute('x1', noteX - ledgerLineLength / 2);
+                        ledger.setAttribute('y1', currentLedgerY);
+                        ledger.setAttribute('x2', noteX + ledgerLineLength / 2);
+                        ledger.setAttribute('y2', currentLedgerY);
+                        ledger.setAttribute('stroke', '#000000');
+                        ledger.setAttribute('stroke-width', '1');
+                        group.appendChild(ledger);
+                        currentLedgerY += 10;
+                    }
+                }
+            });
+        };
+
+        /**
+         * Schedules the metronome beats and updates the visual display.
+         */
+        const scheduler = () => {
+            if (!audioContext || !isPlaying) return;
+
+            while (nextNoteTime < audioContext.currentTime + scheduleAheadTime) {
+                const tempo = parseInt(tempoInput.value, 10);
+                const beatDuration = 60.0 / tempo; // in seconds
+                const isAccent = (currentMetronomeCount % timeSignatureBeats) === 0;
+
+                playMetronomeSound(nextNoteTime, isAccent);
+                currentMetronomeCount++;
+
+                if (currentMetronomeCount > timeSignatureBeats) {
+                    currentMetronomeCount = 1;
+                }
+
+                if (isPreRoll) {
+                    preRollCountSpan.textContent = currentMetronomeCount;
+                    if (currentMetronomeCount === timeSignatureBeats) {
+                        isPreRoll = false;
+                        preRollMessage.classList.add('hidden');
+                        displayArea.classList.remove('hidden');
+                        metronomeCountSpan.classList.add('text-emerald-400');
+                        currentMeasureIndex = 0;
+                        currentMeasureNotes = exerciseMeasures[currentMeasureIndex];
+                        measuresCountSpan.textContent = `${currentMeasureIndex + 1} / ${measuresPerExercise}`;
+                    }
+                } else {
+                    if (currentMetronomeCount === measuresChangeBeat) {
+                        currentMeasureIndex++;
+                        if (currentMeasureIndex < measuresPerExercise) {
+                            currentMeasureNotes = exerciseMeasures[currentMeasureIndex];
+                            measuresCountSpan.textContent = `${currentMeasureIndex + 1} / ${measuresPerExercise}`;
+                        } else {
+                            stopExercise();
+                            return;
+                        }
+                    }
+                    metronomeCountSpan.textContent = currentMetronomeCount;
+                }
+                renderStave();
+                nextNoteTime += beatDuration;
+            }
+            metronomeTimer = window.setTimeout(scheduler, lookahead);
+        };
+
+        /**
+         * Stops the current exercise and resets the state.
+         */
+        const stopExercise = () => {
+            if (!exerciseStarted) return;
+            exerciseStarted = false;
+            isPlaying = false;
+            toggleButton.textContent = 'Comenzar Ejercicio';
+            displayArea.classList.add('hidden');
+
+            if (metronomeTimer) {
+                clearTimeout(metronomeTimer);
+                metronomeTimer = null;
+            }
+
+            currentMeasureIndex = -1;
+            isPreRoll = false;
+            currentMetronomeCount = 0;
+            currentMeasureNotes = [];
+            const measuresValue = measuresSelect.value;
+            measuresPerExercise = measuresValue === 'custom' ?
+                parseInt(customMeasuresInput.value, 10) : parseInt(measuresValue, 10);
+            measuresCountSpan.textContent = `0 / ${measuresPerExercise}`;
+            metronomeCountSpan.textContent = "0";
+            preRollMessage.classList.add('hidden');
+            renderStave();
+        };
+
+        /**
+         * Renders the musical stave with the current measure.
+         */
+        function renderStave() {
+            staveContainer.innerHTML = '';
+            const svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+            const measureWidth = 300;
+            const staveWidth = measureWidth + 60;
+            const staveHeight = 200;
+            svg.setAttribute('viewBox', `0 0 ${staveWidth} ${staveHeight}`);
+            svg.setAttribute('width', '100%');
+            svg.setAttribute('height', '100%');
+            staveContainer.appendChild(svg);
+
+            const currentMeasureX = 30;
+
+            if (isPreRoll && exerciseMeasures.length > 0) {
+                drawMeasure(svg, exerciseMeasures[0], currentMeasureX, measureWidth);
+            } else if (!isPreRoll && exerciseStarted) {
+                if (currentMeasureNotes && currentMeasureNotes.length > 0) {
+                    drawMeasure(svg, currentMeasureNotes, currentMeasureX, measureWidth);
+                } else {
+                    drawMeasure(svg, [], currentMeasureX, measureWidth);
+                }
+            } else {
+                drawMeasure(svg, [], currentMeasureX, measureWidth);
+            }
+        }
+
+        /**
+         * Starts the metronome and exercise.
+         */
+        const startMetronome = async () => {
+            try {
+                if (!audioContext) {
+                    audioContext = new (window.AudioContext || window.webkitAudioContext)();
+                } else if (audioContext.state === 'suspended') {
+                    await audioContext.resume();
+                }
+
+                const measuresValue = measuresSelect.value;
+                const numMeasures = measuresValue === 'custom' ?
+                    parseInt(customMeasuresInput.value, 10) : parseInt(measuresValue, 10);
+
+                if (isNaN(numMeasures) || numMeasures <= 0) {
+                    console.error("El número de compases no es válido.");
+                    stopExercise();
+                    return;
+                }
+
+                measuresPerExercise = numMeasures;
+                exerciseMeasures = generateExercise();
+
+                if (exerciseMeasures.length === 0) {
+                    console.error("Error: No se pudieron generar las notas para el ejercicio. Por favor, revisa la configuración.");
+                    stopExercise();
+                    return;
+                }
+
+                exerciseStarted = true;
+                isPlaying = true;
+                isPreRoll = true;
+                currentMetronomeCount = 0;
+                preRollMessage.classList.remove('hidden');
+                displayArea.classList.add('hidden');
+                metronomeCountSpan.classList.remove('text-emerald-400');
+                toggleButton.textContent = 'Detener Ejercicio';
+                nextNoteTime = audioContext.currentTime + 1.0;
+                scheduler();
+                renderStave();
+
+            } catch (e) {
+                console.error("Error al iniciar el ejercicio:", e);
+                stopExercise();
+            }
+        };
+
+        /**
+         * Initializes the application by getting elements, setting up event listeners.
+         */
+        function initializeApp() {
+            const getElement = (id) => {
+                const el = document.getElementById(id);
+                if (!el) {
+                    console.error(`Error: Elemento con ID "${id}" no encontrado.`);
+                    throw new Error(`Element with ID "${id}" not found.`);
+                }
+                return el;
+            };
+
+            try {
+                toggleButton = getElement('toggleButton');
+                displayArea = getElement('displayArea');
+                tempoInput = getElement('tempo');
+                metronomeCountSpan = getElement('metronomeCount');
+                staveContainer = getElement('stave-container');
+                mainContent = getElement('main-content');
+                loadingMessage = getElement('loading-message');
+                timeSignatureSelect = getElement('time-signature-select');
+                measuresSelect = getElement('measures-select');
+                measuresCountSpan = getElement('measuresCount');
+                customMeasuresInputContainer = getElement('custom-measures-input-container');
+                customMeasuresInput = getElement('custom-measures-input');
+                preRollMessage = getElement('pre-roll-message');
+                difficultySelect = getElement('difficulty-select');
+                changeBeatSelect = getElement('change-beat-select');
+                showTutorialButton = getElement('show-tutorial');
+                tutorialModal = getElement('tutorial-modal');
+                closeModalButton = getElement('close-modal');
+                controlsContainer = getElement('controls-container');
+                buttonsControl = getElement('buttons-control');
+                tutorialHighlightOverlay = getElement('tutorial-highlight-overlay');
+                preRollCountSpan = getElement('preRollCount');
+                nextTutorialStepButton = getElement('next-tutorial-step');
+
+                loadingMessage.style.display = 'none';
+                mainContent.classList.remove('hidden');
+
+                const measuresValue = measuresSelect.value;
+                measuresPerExercise = measuresValue === 'custom' ? 10 : parseInt(measuresValue, 10);
+                measuresCountSpan.textContent = `0 / ${measuresPerExercise}`;
+
+                // Event Listeners
+                measuresSelect.addEventListener('change', () => {
+                    if (measuresSelect.value === 'custom') {
+                        customMeasuresInputContainer.classList.remove('hidden');
+                        measuresPerExercise = parseInt(customMeasuresInput.value, 10) || 10;
+                    } else {
+                        customMeasuresInputContainer.classList.add('hidden');
+                        measuresPerExercise = parseInt(measuresSelect.value, 10);
+                    }
+                    measuresCountSpan.textContent = `0 / ${measuresPerExercise}`;
+                });
+
+                customMeasuresInput.addEventListener('input', () => {
+                    const customValue = parseInt(customMeasuresInput.value, 10);
+                    measuresPerExercise = isNaN(customValue) || customValue <= 0 ? 10 : customValue;
+                    measuresCountSpan.textContent = `0 / ${measuresPerExercise}`;
+                });
+
+                toggleButton.addEventListener('click', () => {
+                    if (exerciseStarted) {
+                        stopExercise();
+                    } else {
+                        startMetronome();
+                    }
+                });
+
+                difficultySelect.addEventListener('change', () => {
+                    if (exerciseStarted) {
+                        stopExercise();
+                    }
+                    renderStave();
+                });
+
+                timeSignatureSelect.addEventListener('change', () => {
+                    const timeSigParts = timeSignatureSelect.value.split('/');
+                    timeSignatureBeats = parseInt(timeSigParts[0], 10);
+                    changeBeatSelect.innerHTML = '';
+                    for (let i = 1; i <= timeSignatureBeats; i++) {
+                        const option = document.createElement('option');
+                        option.value = i;
+                        option.textContent = i;
+                        changeBeatSelect.appendChild(option);
+                    }
+                    changeBeatSelect.value = timeSignatureBeats;
+                    measuresChangeBeat = parseInt(changeBeatSelect.value, 10);
+
+                    if (exerciseStarted) {
+                        stopExercise();
+                    }
+                    renderStave();
+                });
+
+                changeBeatSelect.addEventListener('change', () => {
+                    measuresChangeBeat = parseInt(changeBeatSelect.value, 10);
+                    if (exerciseStarted) {
+                        stopExercise();
+                    }
+                    renderStave();
+                });
+
+                showTutorialButton.addEventListener('click', () => {
+                    tutorialModal.classList.remove('hidden');
+                    currentTutorialStepIndex = 0;
+                    renderTutorialStep();
+                });
+
+                closeModalButton.addEventListener('click', () => {
+                    tutorialModal.classList.add('hidden');
+                    resetTutorialHighlight();
+                });
+
+                tutorialModal.addEventListener('click', (event) => {
+                    if (event.target === tutorialModal) {
+                        tutorialModal.classList.add('hidden');
+                        resetTutorialHighlight();
+                    }
+                });
+
+                nextTutorialStepButton.addEventListener('click', () => {
+                    currentTutorialStepIndex++;
+                    if (currentTutorialStepIndex < tutorialSteps.length) {
+                        renderTutorialStep();
+                    } else {
+                        tutorialModal.classList.add('hidden');
+                        resetTutorialHighlight();
+                    }
+                });
+
+                renderStave();
+            } catch (e) {
+                console.error('Fatal error during application initialization:', e);
+            }
+        }
+
+        window.onload = initializeApp;
+    </script>
+</body>
+</html>
+
