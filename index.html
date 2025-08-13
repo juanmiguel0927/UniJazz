@@ -65,6 +65,120 @@
             padding-top: 3rem; /* py-12 */
             padding-bottom: 3rem;
         }
+
+        /* ---------------------------------------------------- */
+        /* ESTILOS CREATIVOS PARA EL PLAN DE ESTUDIOS GENERAL */
+        /* ---------------------------------------------------- */
+        .plan-summary-creative {
+            margin-bottom: 3rem;
+            text-align: center;
+        }
+        .plan-summary-creative h2 {
+            font-size: 1.875rem;
+            font-weight: 700;
+            color: #1f2937;
+            margin-bottom: 2rem;
+        }
+        .timeline-container {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            gap: 2rem;
+            position: relative;
+        }
+        @media (min-width: 1024px) {
+            .timeline-container {
+                flex-direction: row;
+                justify-content: space-around;
+                align-items: flex-start;
+                padding: 0 4rem;
+            }
+            .timeline-container::before {
+                content: '';
+                position: absolute;
+                top: 5rem;
+                left: 50%;
+                width: 70%;
+                height: 4px;
+                background-color: #d1d5db;
+                z-index: 0;
+                transform: translateX(-50%);
+            }
+        }
+
+        .timeline-card {
+            background-color: white;
+            padding: 2rem;
+            border-radius: 1rem;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            width: 100%;
+            max-width: 350px;
+            text-align: left;
+            position: relative;
+            z-index: 1;
+        }
+        .timeline-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        }
+        .timeline-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%) translateY(-50%);
+            width: 3rem;
+            height: 3rem;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: white;
+            z-index: 2;
+        }
+
+        .timeline-card.fase-1::before { background-color: #3b82f6; content: '1'; } /* blue-500 */
+        .timeline-card.fase-2::before { background-color: #ef4444; content: '2'; } /* red-500 */
+        .timeline-card.fase-3::before { background-color: #10b981; content: '3'; } /* green-500 */
+
+        .timeline-card h3 {
+            font-size: 1.25rem;
+            font-weight: 700;
+            margin-top: 1.5rem;
+            margin-bottom: 0.5rem;
+        }
+        .timeline-card p {
+            font-size: 0.875rem;
+            line-height: 1.5;
+            color: #4b5563;
+            margin-bottom: 1rem;
+        }
+        .timeline-card ul {
+            list-style: none;
+            padding-left: 0;
+        }
+        .timeline-card ul li {
+            position: relative;
+            padding-left: 1.5rem;
+            font-size: 0.875rem;
+            color: #374151;
+            margin-bottom: 0.25rem;
+        }
+        .timeline-card ul li::before {
+            content: '✔';
+            position: absolute;
+            left: 0;
+            color: #10b981;
+        }
+
+        /* ---------------------------------------------------- */
+        /* FIN DE ESTILOS CREATIVOS */
+        /* ---------------------------------------------------- */
+
         .tab-container {
             display: flex;
             justify-content: center;
@@ -219,6 +333,46 @@
 
     <!-- Contenedor principal y navegación por pestañas -->
     <main class="container">
+        <!-- Resumen del Plan de Estudios General con un diseño dinámico -->
+        <div class="plan-summary-creative">
+            <h2>El Camino del Músico de Jazz</h2>
+            <div class="timeline-container">
+                <!-- Fase 1: De Cero al Jazz -->
+                <div class="timeline-card fase-1">
+                    <h3>De Cero al Jazz</h3>
+                    <p>El punto de partida para construir una base sólida.</p>
+                    <p class="font-semibold">Aprenderás:</p>
+                    <ul>
+                        <li><span class="font-semibold">Fundamentos:</span> Armonía tradicional, acordes de séptima (`shell voicings`).</li>
+                        <li><span class="font-semibold">Improvisación:</span> Escalas pentatónicas, modos griegos y articulación rítmica.</li>
+                        <li><span class="font-semibold">Práctica:</span> Interiorización de standards y conceptos en vivo.</li>
+                    </ul>
+                </div>
+                <!-- Fase 2: Universidad del Jazz -->
+                <div class="timeline-card fase-2">
+                    <h3>Universidad del Jazz</h3>
+                    <p>Profundiza en los estilos y técnicas clave del género.</p>
+                    <p class="font-semibold">Dominarás:</p>
+                    <ul>
+                        <li><span class="font-semibold">Géneros:</span> Blues, swing, baladas, jazz modal.</li>
+                        <li><span class="font-semibold">Recursos:</span> `Voice leading`, `bordaduras` y la escala menor melódica.</li>
+                        <li><span class="font-semibold">Estilos:</span> Fraseo y patrones del bebop sobre progresiones complejas.</li>
+                    </ul>
+                </div>
+                <!-- Fase 3: Sistema Moderno -->
+                <div class="timeline-card fase-3">
+                    <h3>Sistema Moderno</h3>
+                    <p>Encuentra tu propia voz y un sonido de vanguardia.</p>
+                    <p class="font-semibold">Explorarás:</p>
+                    <ul>
+                        <li><span class="font-semibold">Armonía:</span> `Voicings` avanzados (`Drops Lage Lund`), acordes con tensiones alteradas.</li>
+                        <li><span class="font-semibold">Creatividad:</span> `Limitaciones creativas` para un sonido personal.</li>
+                        <li><span class="font-semibold">Líneas melódicas:</span> Combinación de tríadas con notas de paso cromáticas.</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
         <!-- Contenedor de los botones de las pestañas con un diseño más pulido -->
         <div class="tab-container">
             <!-- Pestaña de "DE CERO AL JAZZ" -->
@@ -518,9 +672,9 @@
                         </div>
                         <div>
                             <p class="font-semibold" style="margin-bottom: 0.25rem; font-size: 0.875rem;">Ejercicio clave:</p>
-                            <p style="font-size: 0.875rem;">Grabarte tocando la melodía, acompañamiento e improvisación de un standard.</p>
+                            <p style="font-size: 0.875rem;">Grabar un solo sobre un estándar del programa.</p>
                             <p class="font-semibold" style="margin-top: 0.5rem; margin-bottom: 0.25rem; font-size: 0.875rem;">Mini-proyecto final:</p>
-                            <p style="font-size: 0.875rem;">Elige uno de los standards que aprendiste en este programa, graba un video o un audio tuyo tocando la melodía, acompañando e improvisando, aplicando todos los conceptos del programa. Este será un portafolio de tu trabajo final.</p>
+                            <p style="font-size: 0.875rem;">Elige uno de los standards que aprendiste en este programa, graba un video o un audio tuyo tocando la melodía, acompañamiento e improvisación, aplicando todos los conceptos del programa. Este será un portafolio de tu trabajo final.</p>
                         </div>
                     </div>
                 </div>
