@@ -27,6 +27,8 @@
             -webkit-font-smoothing: antialiased;
             -moz-osx-font-smoothing: grayscale;
             line-height: 1.6;
+            margin: 0;
+            padding: 0;
         }
 
         /* Encabezado */
@@ -186,20 +188,21 @@
         
         /* Contenedor de pestañas */
         .tab-container {
+            /* Cambio principal para envolver los elementos en móviles */
             display: flex;
+            flex-wrap: wrap; /* Permite que los botones pasen a la siguiente línea */
             justify-content: center;
             margin-bottom: 2rem;
-            overflow-x: auto;
             background-color: #e5e7eb;
             border-radius: 1.5rem;
             box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
             padding: 0.5rem;
             gap: 0.5rem;
-            -webkit-overflow-scrolling: touch; /* Para un scroll más suave en iOS */
         }
+        
         .tab-button {
             flex-shrink: 0;
-            padding: 0.75rem 1.5rem;
+            padding: 0.75rem 1rem;
             font-weight: 700;
             border-radius: 1.5rem;
             transition: all 0.3s ease;
@@ -207,7 +210,10 @@
             background-color: transparent;
             border: none;
             cursor: pointer;
-            font-size: 0.875rem; /* Ajustado para móvil */
+            font-size: 0.875rem;
+            /* Se asegura de que cada botón ocupe el ancho completo en pantallas pequeñas */
+            width: 100%; 
+            margin-bottom: 0.5rem;
         }
         .tab-button.active {
             color: var(--color-text-dark);
@@ -221,9 +227,11 @@
             .tab-button {
                 padding: 0.75rem 2rem;
                 font-size: 1rem;
+                width: auto; /* Restaura el ancho automático en pantallas grandes */
+                margin-bottom: 0; /* Quita el margen inferior en pantallas grandes */
             }
         }
-
+        
         /* Contenido de las pestañas y módulos */
         .tab-content.hidden {
             display: none;
@@ -393,26 +401,30 @@
                 <div class="module-card" onclick="toggleModule(this)">
                     <div class="module-header">
                         <h3 class="module-title">
-                            <span class="module-icon">🎵</span>Módulo 1 – Fundamentos de la Armonía Tradicional
+                            <span class="module-icon">🎵</span>MÓDULO 1 – Fundamentos de la Armonía Tradicional
                         </h3>
                         <svg class="module-toggle-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
                     </div>
                     <div class="module-content">
                         <hr>
                         <p>
-                            <span class="font-semibold">Objetivo:</span> Entender cómo funciona la música tonal y cómo se conectan los acordes. **El objetivo es aprender a "hablar el idioma musical" de los acordes.**
+                            <span class="font-semibold">Objetivo:</span> Entender cómo funciona la música tonal y cómo se conectan los acordes.
                         </p>
                         <div>
                             <ul>
                                 <li>Tonalidad y centro tonal</li>
                                 <li>Funciones armónicas (tónica, subdominante, dominante)</li>
                                 <li>Progresiones básicas (I-IV-V, ii-V-I)</li>
-                                <li>Dominantes secundarios y sustitución por tritono</li>
+                                <li>Dominantes secundarios</li>
+                                <li>Sustitución por tritono</li>
+                                <li>El acorde disminuido (su rol como VII° en la tonalidad mayor y usos prácticos)</li>
                             </ul>
                         </div>
                         <div>
-                            <p class="font-semibold" style="margin-bottom: 0.25rem; font-size: 0.875rem;">Ejercicio clave:</p>
-                            <p style="font-size: 0.875rem;">Analizar 3 standards y marcar funciones armónicas.</p>
+                            <p class="font-semibold" style="margin-bottom: 0.25rem; font-size: 0.875rem;">Standard:</p>
+                            <p style="font-size: 0.875rem;">Satin Doll</p>
+                            <p class="font-semibold" style="margin-top: 0.5rem; margin-bottom: 0.25rem; font-size: 0.875rem;">Ejercicio clave:</p>
+                            <p style="font-size: 0.875rem;">Analizar tres standards y marcar funciones armónicas.</p>
                         </div>
                     </div>
                 </div>
@@ -420,24 +432,27 @@
                 <div class="module-card" onclick="toggleModule(this)">
                     <div class="module-header">
                         <h3 class="module-title">
-                             <span class="module-icon">🎹</span>Módulo 2 – El Idioma de los Acordes
+                            <span class="module-icon">🎹</span>MÓDULO 2 – El Idioma de los Acordes
                         </h3>
                         <svg class="module-toggle-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
                     </div>
                     <div class="module-content">
                         <hr>
                         <p>
-                            <span class="font-semibold">Objetivo:</span> Construir y tocar acordes base del jazz. **Este módulo te enseña a usar acordes con "voz" en lugar de bloques, preparando el camino para las melodías y arpegios que verás más adelante.**
+                            <span class="font-semibold">Objetivo:</span> Construir y tocar acordes característicos del jazz.
                         </p>
                         <div>
                             <ul>
                                 <li>Acordes con séptima</li>
-                                <li>Shell voicings (3 y 4 notas)</li>
+                                <li>Shell voicings (solo 3 notas)</li>
+                                <li>Guide tones (notas guía en la progresión)</li>
                             </ul>
                         </div>
                         <div>
-                            <p class="font-semibold" style="margin-bottom: 0.25rem; font-size: 0.875rem;">Ejercicio clave:</p>
-                            <p style="font-size: 0.875rem;">Acompañar un blues en F solo con shell voicings.</p>
+                            <p class="font-semibold" style="margin-bottom: 0.25rem; font-size: 0.875rem;">Standard:</p>
+                            <p style="font-size: 0.875rem;">Blues en Fa</p>
+                            <p class="font-semibold" style="margin-top: 0.5rem; margin-bottom: 0.25rem; font-size: 0.875rem;">Ejercicio clave:</p>
+                            <p style="font-size: 0.875rem;">Acompañar un blues en Fa solo con shell voicings.</p>
                         </div>
                     </div>
                 </div>
@@ -445,25 +460,25 @@
                 <div class="module-card" onclick="toggleModule(this)">
                     <div class="module-header">
                         <h3 class="module-title">
-                            <span class="module-icon">🎼</span>Módulo 3 – El Universo de las Escalas
+                            <span class="module-icon">🎼</span>MÓDULO 3 – El Universo de las Escalas
                         </h3>
                         <svg class="module-toggle-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
                     </div>
                     <div class="module-content">
                         <hr>
                         <p>
-                            <span class="font-semibold">Objetivo:</span> Dominar las escalas base para improvisar y entender la armonía. **Las escalas son el "alfabeto" de tu improvisación. Este módulo te enseña a construir frases musicales coherentes.**
+                            <span class="font-semibold">Objetivo:</span> Dominar las escalas base para improvisar y entender la armonía.
                         </p>
                         <div>
                             <ul>
-                                <li>Escala mayor</li>
+                                <li>Escala mayor natural</li>
                                 <li>Escala menor natural</li>
                                 <li>Escala pentatónica (mayor y menor)</li>
                             </ul>
                         </div>
                         <div>
                             <p class="font-semibold" style="margin-bottom: 0.25rem; font-size: 0.875rem;">Ejercicio clave:</p>
-                            <p style="font-size: 0.875rem;">Improvisar sobre un I-vi-ii-V usando solo pentatónicas.</p>
+                            <p style="font-size: 0.875rem;">Improvisar sobre un I–VI–II–V usando solo pentatónicas.</p>
                         </div>
                     </div>
                 </div>
@@ -471,14 +486,14 @@
                 <div class="module-card" onclick="toggleModule(this)">
                     <div class="module-header">
                         <h3 class="module-title">
-                            <span class="module-icon">🎸</span>Módulo 4 – El Arte de los Arpegios
+                            <span class="module-icon">🎸</span>MÓDULO 4 – El Arte de los Arpegios
                         </h3>
                         <svg class="module-toggle-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
                     </div>
                     <div class="module-content">
                         <hr>
                         <p>
-                            <span class="font-semibold">Objetivo:</span> Conectar melodías directamente con la armonía. **Aquí aprendes a "desempacar" los acordes para crear melodías que reflejen la armonía subyacente de forma explícita.**
+                            <span class="font-semibold">Objetivo:</span> Conectar melodías directamente con la armonía.
                         </p>
                         <div>
                             <ul>
@@ -489,11 +504,7 @@
                         </div>
                         <div>
                             <p class="font-semibold" style="margin-bottom: 0.25rem; font-size: 0.875rem;">Ejercicio clave:</p>
-                            <p style="font-size: 0.875rem;">Improvisar sobre ii-V-I usando solo arpegios.</p>
-                            <p class="font-semibold" style="margin-top: 0.5rem; margin-bottom: 0.25rem; font-size: 0.875rem;">Tema de aplicación:</p>
-                            <p style="font-size: 0.875rem;">All of Me</p>
-                            <p class="font-semibold" style="margin-top: 0.5rem; margin-bottom: 0.25rem; font-size: 0.875rem;">Estructura de práctica:</p>
-                            <p style="font-size: 0.875rem;">Toca la melodía, acompáñala con voicings aprendidos, y luego improvisa usando solo arpegios.</p>
+                            <p style="font-size: 0.875rem;">Improvisar sobre un II–V–I usando solo arpegios.</p>
                         </div>
                     </div>
                 </div>
@@ -501,26 +512,29 @@
                 <div class="module-card" onclick="toggleModule(this)">
                     <div class="module-header">
                         <h3 class="module-title">
-                            <span class="module-icon">🪗</span>Módulo 5 – Drop 2 y Drop 3
+                            <span class="module-icon">✨</span>MÓDULO 5 – Modos Griegos
                         </h3>
                         <svg class="module-toggle-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
                     </div>
                     <div class="module-content">
                         <hr>
                         <p>
-                            <span class="font-semibold">Objetivo:</span> Ampliar el registro y la sonoridad de los acordes en la guitarra.
+                            <span class="font-semibold">Objetivo:</span> Conocer cada modo, su color y su contexto armónico.
                         </p>
                         <div>
                             <ul>
-                                <li>Qué son y cómo se forman</li>
-                                <li>Drop 2 en cuerdas 1-4, 2-5 y 3-6</li>
-                                <li>Drop 3 en cuerdas 1-5 y 2-6</li>
-                                <li>Aplicación en progresiones ii-V-I y en standards</li>
+                                <li>Modo Jónico</li>
+                                <li>Modo Dórico</li>
+                                <li>Modo Frigio</li>
+                                <li>Modo Lidio</li>
+                                <li>Modo Mixolidio</li>
+                                <li>Modo Eólico</li>
+                                <li>Modo Locrio</li>
                             </ul>
                         </div>
                         <div>
                             <p class="font-semibold" style="margin-bottom: 0.25rem; font-size: 0.875rem;">Ejercicio clave:</p>
-                            <p style="font-size: 0.875rem;">Tocar All the Things You Are usando solo voicings drop 2 y drop 3.</p>
+                            <p style="font-size: 0.875rem;">Improvisar sobre un vamp modal para cada modo, combinando escalas y arpegios.</p>
                         </div>
                     </div>
                 </div>
@@ -528,46 +542,14 @@
                 <div class="module-card" onclick="toggleModule(this)">
                     <div class="module-header">
                         <h3 class="module-title">
-                             <span class="module-icon">✨</span>Módulo 6 – Los Modos Griegos
+                            <span class="module-icon">🎷</span>MÓDULO 6 – Colores Menores Avanzados
                         </h3>
                         <svg class="module-toggle-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
                     </div>
                     <div class="module-content">
                         <hr>
                         <p>
-                            <span class="font-semibold">Objetivo:</span> Conocer cada modo, su color y su contexto armónico. **Este módulo te enseña a usar diferentes "paletas de color" para improvisar sobre cada tipo de acorde.**
-                        </p>
-                        <div>
-                            <ul>
-                                <li>Jónico</li>
-                                <li>Dórico</li>
-                                <li>Frigio</li>
-                                <li>Lidio</li>
-                                <li>Mixolidio</li>
-                                <li>Eólico</li>
-                                <li>Locrio</li>
-                            </ul>
-                        </div>
-                        <div>
-                            <p class="font-semibold" style="margin-bottom: 0.25rem; font-size: 0.875rem;">Ejercicio clave:</p>
-                            <p style="font-size: 0.875rem;">Improvisar sobre un vamp modal para cada modo.</p>
-                            <p class="font-semibold" style="margin-top: 0.5rem; margin-bottom: 0.25rem; font-size: 0.875rem;">Ejercicios escalonados:</p>
-                            <p style="font-size: 0.875rem;">Toca la escala completa, luego improvisa solo con 3 notas de la escala, y finalmente usa la escala completa para crear un solo.</p>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="module-card" onclick="toggleModule(this)">
-                    <div class="module-header">
-                        <h3 class="module-title">
-                            <span class="module-icon">🎷</span>Módulo 7 – Colores Menores Avanzados
-                        </h3>
-                        <svg class="module-toggle-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
-                    </div>
-                    <div class="module-content">
-                        <hr>
-                        <p>
-                            <span class="font-semibold">Objetivo:</span> Añadir escalas sofisticadas para contextos reales. **La menor armónica y melódica son esenciales para crear sonoridades más tensas y expresivas en el jazz, especialmente sobre acordes dominantes.**
+                            <span class="font-semibold">Objetivo:</span> Añadir escalas sofisticadas para contextos reales.
                         </p>
                         <div>
                             <ul>
@@ -576,8 +558,10 @@
                             </ul>
                         </div>
                         <div>
-                            <p class="font-semibold" style="margin-bottom: 0.25rem; font-size: 0.875rem;">Ejercicio clave:</p>
-                            <p style="font-size: 0.875rem;">Improvisar sobre Blue Bossa usando menor melódica en dominantes.</p>
+                            <p class="font-semibold" style="margin-bottom: 0.25rem; font-size: 0.875rem;">Standard:</p>
+                            <p style="font-size: 0.875rem;">Blue Bossa</p>
+                            <p class="font-semibold" style="margin-top: 0.5rem; margin-bottom: 0.25rem; font-size: 0.875rem;">Ejercicio clave:</p>
+                            <p style="font-size: 0.875rem;">Improvisar usando menor melódica en dominantes.</p>
                         </div>
                     </div>
                 </div>
@@ -585,26 +569,26 @@
                 <div class="module-card" onclick="toggleModule(this)">
                     <div class="module-header">
                         <h3 class="module-title">
-                            <span class="module-icon">🥁</span>Módulo 8 – Ritmo y Swing
+                            <span class="module-icon">🪗</span>MÓDULO 7 – Drop 2 y Drop 3 para Guitarra
                         </h3>
                         <svg class="module-toggle-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
                     </div>
                     <div class="module-content">
                         <hr>
                         <p>
-                            <span class="font-semibold">Objetivo:</span> Tocar con feel y acompañar con confianza.
+                            <span class="font-semibold">Objetivo:</span> Usar voicings profesionales en progresiones comunes.
                         </p>
                         <div>
                             <ul>
-                                <li>Subdivisión swing</li>
-                                <li>Comping básico en swing medium</li>
-                                <li>Ritmos sincopados</li>
-                                <li>Introducción a bossa nova y latin jazz</li>
+                                <li>Drop 2</li>
+                                <li>Drop 3</li>
                             </ul>
                         </div>
                         <div>
-                            <p class="font-semibold" style="margin-bottom: 0.25rem; font-size: 0.875rem;">Ejercicio clave:</p>
-                            <p style="font-size: 0.875rem;">Grabar comping sobre blues en Bb y evaluar el feel.</p>
+                            <p class="font-semibold" style="margin-bottom: 0.25rem; font-size: 0.875rem;">Standard:</p>
+                            <p style="font-size: 0.875rem;">Beautiful Love</p>
+                            <p class="font-semibold" style="margin-top: 0.5rem; margin-bottom: 0.25rem; font-size: 0.875rem;">Ejercicio clave:</p>
+                            <p style="font-size: 0.875rem;">Acompañar todo el tema con drop 2 y drop 3.</p>
                         </div>
                     </div>
                 </div>
@@ -612,27 +596,23 @@
                 <div class="module-card" onclick="toggleModule(this)">
                     <div class="module-header">
                         <h3 class="module-title">
-                            <span class="module-icon">📚</span>Módulo 9 – Interiorización de un Estándar
+                            <span class="module-icon">📚</span>MÓDULO 8 – Repertorio: 5 Standards
                         </h3>
                         <svg class="module-toggle-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
                     </div>
                     <div class="module-content">
                         <hr>
                         <p>
-                            <span class="font-semibold">Objetivo:</span> Aprender a memorizar un standard para no depender de la partitura. **Este es un paso crucial para desarrollar tu oído y tu memoria muscular, permitiéndote improvisar libremente sin la hoja de papel.**
+                            <span class="font-semibold">Objetivo:</span> Integrar melodía, acordes e improvisación en temas reales.
                         </p>
                         <div>
                             <ul>
-                                <li>Análisis formal y armónico</li>
-                                <li>Cantar la melodía y el bajo</li>
-                                <li>Tocar la melodía en varias octavas</li>
-                                <li>Acompañar de memoria</li>
-                                <li>Ciclo de práctica: melodía → comping → solo → melodía</li>
+                                <li>Blue Bossa (ii-V-I menor)</li>
+                                <li>Autumn Leaves (movimiento mayor-menor)</li>
+                                <li>C Jam Blues (blues sencillo)</li>
+                                <li>All of Me (dominantes secundarios)</li>
+                                <li>Solar (bebop básico y cambios rápidos)</li>
                             </ul>
-                        </div>
-                        <div>
-                            <p class="font-semibold" style="margin-bottom: 0.25rem; font-size: 0.875rem;">Ejercicio clave:</p>
-                            <p style="font-size: 0.875rem;">Interiorizar There Will Never Be Another You sin partitura.</p>
                         </div>
                     </div>
                 </div>
@@ -640,52 +620,60 @@
                 <div class="module-card" onclick="toggleModule(this)">
                     <div class="module-header">
                         <h3 class="module-title">
-                            <span class="module-icon">🎤</span>Módulo 10 – Improvisación y Aplicación Final
+                            <span class="module-icon">🥁</span>MÓDULO 9 – Interiorización de un Estándar
                         </h3>
                         <svg class="module-toggle-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
                     </div>
                     <div class="module-content">
                         <hr>
                         <p>
-                            <span class="font-semibold">Objetivo:</span> Unir todos los conceptos en música real.
+                            <span class="font-semibold">Objetivo:</span> Aprender a memorizar profundamente un tema y tocarlo de memoria.
                         </p>
                         <div>
+                            <h3 class="font-semibold" style="font-size: 0.875rem; margin-bottom: 0.25rem;">Conceptos clave:</h3>
                             <ul>
-                                <li>Improvisar sobre ii-V-I en mayor y menor</li>
-                                <li>Frases típicas (licks) de bebop y swing</li>
-                                <li>Conexión entre escalas, arpegios y acordes</li>
-                                <li>Forma completa: melodía → solo → melodía</li>
+                                <li>Tocar en tiempos 2 y 4</li>
+                                <li>Uso del metrónomo</li>
+                                <li>Swing feel</li>
+                                <li>Cantar líneas de bajo y melodías</li>
+                                <li>Transportar standards a otras tonalidades</li>
+                                <li>Ejecución de los ejercicios anteriores sobre la grabación original del standard</li>
                             </ul>
                         </div>
                         <div>
-                            <p class="font-semibold" style="margin-bottom: 0.25rem; font-size: 0.875rem;">Ejercicio clave:</p>
-                            <p style="font-size: 0.875rem;">Grabar un solo sobre un estándar del programa.</p>
-                            <p class="font-semibold" style="margin-top: 0.5rem; margin-bottom: 0.25rem; font-size: 0.875rem;">Mini-proyecto final:</p>
-                            <p style="font-size: 0.875rem;">Elige uno de los standards que aprendiste en este programa, graba un video o un audio tuyo tocando la melodía, acompañamiento e improvisación, aplicando todos los conceptos del programa. Este será un portafolio de tu trabajo final.</p>
+                            <p class="font-semibold" style="margin-bottom: 0.25rem; font-size: 0.875rem;">Standard:</p>
+                            <p style="font-size: 0.875rem;">Lady Bird</p>
+                            <p class="font-semibold" style="margin-top: 0.5rem; margin-bottom: 0.25rem; font-size: 0.875rem;">Ejercicio clave:</p>
+                            <p style="font-size: 0.875rem;">Memorización por bloques armónicos y melódicos, sin partitura.</p>
                         </div>
                     </div>
                 </div>
 
-                <div class="module-card col-span-full" onclick="toggleModule(this)">
+                <div class="module-card" onclick="toggleModule(this)">
                     <div class="module-header">
                         <h3 class="module-title">
-                            <span class="module-icon">🏆</span> MINI CURSO: 5 Standards
+                            <span class="module-icon">🏆</span>MÓDULO 10 – Aplicación Completa en un Standard Complejo
                         </h3>
                         <svg class="module-toggle-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
                     </div>
                     <div class="module-content">
                         <hr>
-                        <p style="margin-bottom: 0.25rem;">
-                            <span class="font-semibold">Subtítulo:</span> Aprende melodía, armonía y acompañamiento de forma sólida y con swing
+                        <p>
+                            <span class="font-semibold">Objetivo:</span> Poner en práctica todo lo aprendido en un tema con más cambios.
                         </p>
                         <div>
+                            <h3 class="font-semibold" style="font-size: 0.875rem; margin-bottom: 0.25rem;">Puntos de trabajo:</h3>
                             <ul>
-                                <li>Blue Bossa</li>
-                                <li>Autumn Leaves</li>
-                                <li>C Jam Blues</li>
-                                <li>All of Me</li>
-                                <li>Solar</li>
+                                <li>Core melody básico</li>
+                                <li>Improvisación coherente y con intención</li>
+                                <li>Acompañamiento jazzístico sólido</li>
                             </ul>
+                        </div>
+                        <div>
+                            <p class="font-semibold" style="margin-bottom: 0.25rem; font-size: 0.875rem;">Standard:</p>
+                            <p style="font-size: 0.875rem;">There Will Never Be Another You</p>
+                            <p class="font-semibold" style="margin-top: 0.5rem; margin-bottom: 0.25rem; font-size: 0.875rem;">Ejercicio clave:</p>
+                            <p style="font-size: 0.875rem;">Melodía → comping → improvisación → melodía.</p>
                         </div>
                     </div>
                 </div>
@@ -698,7 +686,7 @@
                 <div class="module-card" onclick="toggleModule(this)">
                     <div class="module-header">
                         <h3 class="module-title">
-                            <span class="module-icon">🎸</span>Módulo 1 – Blues
+                            <span class="module-icon">🎸</span>MÓDULO 1 – Blues: Fundamentos y Expansión del Lenguaje
                         </h3>
                         <svg class="module-toggle-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
                     </div>
@@ -708,22 +696,16 @@
                             <span class="font-semibold">Objetivo:</span> Dominar la estructura del blues y ampliar el vocabulario melódico y armónico.
                         </p>
                         <div>
-                            <h3 class="font-semibold" style="font-size: 0.875rem; margin-bottom: 0.25rem;">Clases:</h3>
                             <ul>
                                 <li>Forma y walking bass</li>
                                 <li>Resoluciones blues (mayor y menor)</li>
                                 <li>“Bombardear” una nota y recursos afroamericanos</li>
                                 <li>Uso de #11 en dominantes</li>
-                                <li>Arpegios rotos y tonos enteros</li>
-                                <li>Compings dominantes</li>
                             </ul>
                         </div>
                         <div>
-                            <h3 class="font-semibold" style="font-size: 0.875rem; margin-bottom: 0.25rem;">Standards:</h3>
-                            <ul>
-                                <li>Blues by Five</li>
-                                <li>Now’s the Time</li>
-                            </ul>
+                            <p class="font-semibold" style="margin-bottom: 0.25rem; font-size: 0.875rem;">Standards:</p>
+                            <p style="font-size: 0.875rem;">Blues by Five, Now’s the Time</p>
                         </div>
                     </div>
                 </div>
@@ -731,7 +713,7 @@
                 <div class="module-card" onclick="toggleModule(this)">
                     <div class="module-header">
                         <h3 class="module-title">
-                            <span class="module-icon">🎹</span>Módulo 2 – Modal
+                            <span class="module-icon">🎹</span>MÓDULO 2 – Modal: Libertad y Estructura en el Jazz Modal
                         </h3>
                         <svg class="module-toggle-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
                     </div>
@@ -741,21 +723,17 @@
                             <span class="font-semibold">Objetivo:</span> Construir un fraseo modal sólido con recursos armónicos y rítmicos.
                         </p>
                         <div>
-                            <h3 class="font-semibold" style="font-size: 0.875rem; margin-bottom: 0.25rem;">Clases:</h3>
                             <ul>
-                                <li>Aprende a frasear usando el arpegio Dm7 dentro del modo dórico, como se ve en 'So What'</li>
-                                <li>Apuntar a la fundamental</li>
+                                <li>Escala dórica</li>
+                                <li>Arpegio menor</li>
+                                <li>Nota dórica</li>
                                 <li>Forma AABA</li>
                                 <li>Trabajo con cuartas (2+4, 4+2)</li>
-                                <li>Acorde “So What”</li>
                             </ul>
                         </div>
                         <div>
-                            <h3 class="font-semibold" style="font-size: 0.875rem; margin-bottom: 0.25rem;">Standards:</h3>
-                            <ul>
-                                <li>Impressions</li>
-                                <li>So What</li>
-                            </ul>
+                            <p class="font-semibold" style="margin-bottom: 0.25rem; font-size: 0.875rem;">Standard:</p>
+                            <p style="font-size: 0.875rem;">So What (Miles Davis)</p>
                         </div>
                     </div>
                 </div>
@@ -763,33 +741,28 @@
                 <div class="module-card" onclick="toggleModule(this)">
                     <div class="module-header">
                         <h3 class="module-title">
-                            <span class="module-icon">🕺</span>Módulo 3 – Swing
+                            <span class="module-icon">🕺</span>MÓDULO 3 – Swing: Articulación y Fluidez Rítmica
                         </h3>
                         <svg class="module-toggle-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
                     </div>
                     <div class="module-content">
                         <hr>
                         <p>
-                            <span class="font-semibold">Objetivo:</span> Interiorizar la articulación y swing tradicional para frasear con fluidez. **El estándar 'Take the A Train' es perfecto para este módulo por su forma AABA y su estructura armónica, ideal para practicar las bordaduras y el `voice leading`.**
+                            <span class="font-semibold">Objetivo:</span> Interiorizar la articulación y swing tradicional para frasear con fluidez.
                         </p>
                         <div>
-                            <h3 class="font-semibold" style="font-size: 0.875rem; margin-bottom: 0.25rem;">Clases:</h3>
                             <ul>
-                                <li>Escala mayor y menor</li>
-                                <li>Bordaduras y bordaduras cromáticas</li>
-                                <li>Guide tones y contramelodía</li>
-                                <li>Interiorización de la forma</li>
-                                <li>Voicings drop 2 y patrones cíclicos</li>
-                                <li>9♭ en dominantes y atracción de notas</li>
+                                <li>Guide tones (3 y 7) y atracción de notas</li>
+                                <li>Terceras y séptimas</li>
                                 <li>Metrónomo en 2 y 4</li>
+                                <li>Contramelodía</li>
+                                <li>Voicings drop 2 y drop 3</li>
+                                <li>Patrones cíclicos</li>
                             </ul>
                         </div>
                         <div>
-                            <h3 class="font-semibold" style="font-size: 0.875rem; margin-bottom: 0.25rem;">Standards:</h3>
-                            <ul>
-                                <li>Take the A Train</li>
-                                <li>All of Me</li>
-                            </ul>
+                            <p class="font-semibold" style="margin-bottom: 0.25rem; font-size: 0.875rem;">Standard:</p>
+                            <p style="font-size: 0.875rem;">Autumn Leaves</p>
                         </div>
                     </div>
                 </div>
@@ -797,7 +770,7 @@
                 <div class="module-card" onclick="toggleModule(this)">
                     <div class="module-header">
                         <h3 class="module-title">
-                             <span class="module-icon">🎶</span>Módulo 4 – Ballad
+                             <span class="module-icon">🎶</span>MÓDULO 4 – Ballad: Expresión y Profundidad Armónica
                         </h3>
                         <svg class="module-toggle-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
                     </div>
@@ -807,21 +780,18 @@
                             <span class="font-semibold">Objetivo:</span> Desarrollar la interpretación expresiva y el control armónico en tempo lento.
                         </p>
                         <div>
-                            <h3 class="font-semibold" style="font-size: 0.875rem; margin-bottom: 0.25rem;">Clases:</h3>
                             <ul>
-                                <li>Arpegios con séptima y guide tones</li>
-                                <li>Voice leading y compings</li>
-                                <li>Pentatónica tonal y arpegios extendidos</li>
-                                <li>Apuntar a la novena</li>
+                                <li>Voice leading</li>
+                                <li>Arpegios con séptima</li>
+                                <li>Acordes con séptima, novena, once y trece</li>
+                                <li>Acompañamiento</li>
+                                <li>Pentatónica tonal</li>
                                 <li>Chord melody</li>
                             </ul>
                         </div>
                         <div>
-                            <h3 class="font-semibold" style="font-size: 0.875rem; margin-bottom: 0.25rem;">Standards:</h3>
-                            <ul>
-                                <li>Misty</li>
-                                <li>Body and Soul</li>
-                            </ul>
+                            <p class="font-semibold" style="margin-bottom: 0.25rem; font-size: 0.875rem;">Standard:</p>
+                            <p style="font-size: 0.875rem;">Misty</p>
                         </div>
                     </div>
                 </div>
@@ -829,7 +799,7 @@
                 <div class="module-card" onclick="toggleModule(this)">
                     <div class="module-header">
                         <h3 class="module-title">
-                            <span class="module-icon">🎼</span>Módulo 5 – ii V I
+                            <span class="module-icon">🎼</span>MÓDULO 5 – ii–V–I: El ADN del Lenguaje Jazzístico
                         </h3>
                         <svg class="module-toggle-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
                     </div>
@@ -839,27 +809,16 @@
                             <span class="font-semibold">Objetivo:</span> Dominar la progresión ii–V–I en diferentes tonalidades y contextos.
                         </p>
                         <div>
-                            <h3 class="font-semibold" style="font-size: 0.875rem; margin-bottom: 0.25rem;">Clases:</h3>
                             <ul>
-                                <li>Guide tones y voice leading</li>
-                                <li>Escala menor melódica aplicada a dominantes alterados</li>
-                                <li>ii–V–I–VI7 en diferentes tonalidades</li>
-                                <li>Compings cuartales y alterados</li>
+                                <li>Escala menor melódica</li>
+                                <li>Modo alterado</li>
+                                <li>Arpegios extendidos</li>
+                                <li>Compings (mayor7, menor7, 7, 7 alterado, m7♭5)</li>
                             </ul>
                         </div>
                         <div>
-                            <h3 class="font-semibold" style="font-size: 0.875rem; margin-bottom: 0.25rem;">Standards:</h3>
-                            <ul>
-                                <li>Lady Bird</li>
-                                <li>There Will Never Be Another You</li>
-                            </ul>
-                        </div>
-                        <div>
-                            <h3 class="font-semibold" style="font-size: 0.875rem; margin-bottom: 0.25rem;">Rutina de práctica:</h3>
-                            <ul>
-                                <li>Toca el ii-V-I en una tonalidad, primero en un círculo de cuartas, luego en un círculo de quintas.</li>
-                                <li>Practica los voicings y las escalas sobre un backing track a diferentes tempos.</li>
-                            </ul>
+                            <p class="font-semibold" style="margin-bottom: 0.25rem; font-size: 0.875rem;">Standard:</p>
+                            <p style="font-size: 0.875rem;">Tune Up (Miles Davis)</p>
                         </div>
                     </div>
                 </div>
@@ -867,36 +826,30 @@
                 <div class="module-card" onclick="toggleModule(this)">
                     <div class="module-header">
                         <h3 class="module-title">
-                            <span class="module-icon">🎺</span>Módulo 6 – Bebop 1
+                            <span class="module-icon">🎺</span>MÓDULO 6 – Bebop 1: Fundamentos de la Articulación Bebop
                         </h3>
                         <svg class="module-toggle-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
                     </div>
                     <div class="module-content">
                         <hr>
                         <p>
-                            <span class="font-semibold">Objetivo:</span> Incorporar el fraseo y articulación característica del bebop. **Este módulo se centra en las bases del bebop, como las escalas y las notas de paso para crear líneas melódicas fluidas.**
+                            <span class="font-semibold">Objetivo:</span> Incorporar el fraseo y articulación característica del bebop.
                         </p>
                         <div>
-                            <h3 class="font-semibold" style="font-size: 0.875rem; margin-bottom: 0.25rem;">Clases:</h3>
                             <ul>
                                 <li>Escala bebop dominante</li>
                                 <li>Nota cordal a nota cordal</li>
-                                <li>Cromatismo en nota no cordal</li>
-                                <li>Síncopa, enclosure y ornamentos</li>
-                                <li>Patrones cíclicos y dobles bordaduras cromáticas</li>
-                                <li>Extensión desde la séptima y cambios de contorno</li>
+                                <li>Empezar la línea en nota no cordal</li>
+                                <li>Enclosure y desvío</li>
+                                <li>Finales</li>
+                                <li>Patrón cíclico</li>
+                                <li>Extensión desde la séptima</li>
+                                <li>Pivote</li>
                             </ul>
                         </div>
                         <div>
-                            <h3 class="font-semibold" style="font-size: 0.875rem; margin-bottom: 0.25rem;">Standards:</h3>
-                            <ul>
-                                <li>Ornithology</li>
-                                <li>Donna Lee</li>
-                            </ul>
-                        </div>
-                        <div>
-                            <p class="font-semibold" style="margin-bottom: 0.25rem; font-size: 0.875rem;">Tarea de escucha activa:</p>
-                            <p style="font-size: 0.875rem;">Escucha atentamente los solos de Charlie Parker en "Ornithology" para identificar los `licks` y la articulación característica.</p>
+                            <p class="font-semibold" style="margin-bottom: 0.25rem; font-size: 0.875rem;">Standards:</p>
+                            <p style="font-size: 0.875rem;">Ornithology, Donna Lee</p>
                         </div>
                     </div>
                 </div>
@@ -904,30 +857,31 @@
                 <div class="module-card" onclick="toggleModule(this)">
                     <div class="module-header">
                         <h3 class="module-title">
-                            <span class="module-icon">🎺</span>Módulo 7 – Bebop 2
+                            <span class="module-icon">🎺</span>MÓDULO 7 – Bebop 2: Vocabulario Avanzado y Diminuido
                         </h3>
                         <svg class="module-toggle-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
                     </div>
                     <div class="module-content">
                         <hr>
                         <p>
-                            <span class="font-semibold">Objetivo:</span> Ampliar el vocabulario bebop con recursos armónicos avanzados. **Aquí profundizamos en sonoridades más complejas como las escalas disminuidas y de tonos enteros, que te permiten crear tensión y resolución de forma más dramática.**
+                            <span class="font-semibold">Objetivo:</span> Ampliar el vocabulario bebop con recursos armónicos avanzados.
                         </p>
                         <div>
-                            <h3 class="font-semibold" style="font-size: 0.875rem; margin-bottom: 0.25rem;">Clases:</h3>
                             <ul>
-                                <li>Licks ii–V–I, melodías e improvisaciones</li>
-                                <li>Arpegio y escala disminuida</li>
-                                <li>Acordes y triadas de la disminuida</li>
-                                <li>Escala de tonos enteros y arpegios aumentados</li>
+                                <li>Licks ii–V–I</li>
+                                <li>Transcripciones</li>
+                                <li>Frases melódicas</li>
+                                <li>Arpegio disminuido</li>
+                                <li>Escala disminuida</li>
+                                <li>Acordes disminuidos</li>
+                                <li>Triadas mayores en la escala disminuida</li>
+                                <li>Escala de tonos enteros</li>
+                                <li>Arpegio aumentado</li>
                             </ul>
                         </div>
                         <div>
-                            <p class="font-semibold" style="margin-bottom: 0.25rem; font-size: 0.875rem;">Standards:</h3>
-                            <ul>
-                                <li>Cherokee</li>
-                                <li>Groovin’ High</li>
-                            </ul>
+                            <p class="font-semibold" style="margin-bottom: 0.25rem; font-size: 0.875rem;">Standards:</p>
+                            <p style="font-size: 0.875rem;">Cherokee, Groovin’ High</p>
                         </div>
                     </div>
                 </div>
@@ -935,7 +889,7 @@
                 <div class="module-card" onclick="toggleModule(this)">
                     <div class="module-header">
                         <h3 class="module-title">
-                             <span class="module-icon">🤸‍♀️</span>Módulo 8 – Rhythm Changes
+                            <span class="module-icon">🤸‍♀️</span>MÓDULO 8 – Rhythm Changes: Velocidad y Control Armónico
                         </h3>
                         <svg class="module-toggle-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
                     </div>
@@ -945,18 +899,17 @@
                             <span class="font-semibold">Objetivo:</span> Dominar la forma de Rhythm Changes y aplicar patrones bebop sobre progresiones rápidas.
                         </p>
                         <div>
-                            <h3 class="font-semibold" style="font-size: 0.875rem; margin-bottom: 0.25rem;">Clases:</h3>
                             <ul>
+                                <li>Forma AABA</li>
                                 <li>Patrones 1, 2, 3, 5 para improvisar sobre Rhythm Changes</li>
                                 <li>Estrategias de conexión melódica en progresiones dominantes</li>
+                                <li>Tocar bebop en la parte B sobre los dominantes</li>
+                                <li>Variaciones melódicas y rítmicas para el puente</li>
                             </ul>
                         </div>
                         <div>
-                            <h3 class="font-semibold" style="font-size: 0.875rem; margin-bottom: 0.25rem;">Standards:</h3>
-                            <ul>
-                                <li>I Got Rhythm</li>
-                                <li>Oleo</li>
-                            </ul>
+                            <p class="font-semibold" style="margin-bottom: 0.25rem; font-size: 0.875rem;">Standards:</p>
+                            <p style="font-size: 0.875rem;">I Got Rhythm, Oleo</p>
                         </div>
                     </div>
                 </div>
@@ -964,7 +917,7 @@
                 <div class="module-card" onclick="toggleModule(this)">
                     <div class="module-header">
                         <h3 class="module-title">
-                            <span class="module-icon">🤯</span>Módulo 9 – Coltrane Changes
+                            <span class="module-icon">🤯</span>MÓDULO 9 – Coltrane Changes: Fluidez sobre Cambios Complejos
                         </h3>
                         <svg class="module-toggle-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
                     </div>
@@ -974,18 +927,16 @@
                             <span class="font-semibold">Objetivo:</span> Desarrollar soltura y creatividad sobre progresiones Coltrane Changes.
                         </p>
                         <div>
-                            <h3 class="font-semibold" style="font-size: 0.875rem; margin-bottom: 0.25rem;">Clases:</h3>
                             <ul>
-                                <li>Patrones 1, 2, 3, 5 aplicados a Coltrane Changes</li>
-                                <li>Pentatónicas secundarias para cambios simétricos</li>
+                                <li>Patrones 1, 2, 3, 5</li>
+                                <li>Escala pentatónica secundaria aplicada a cambios simétricos</li>
+                                <li>Patrones de Jerry Bergonzi para dominio melódico-armónico</li>
+                                <li>Explicación de los cambios Coltrane y su origen</li>
                             </ul>
                         </div>
                         <div>
-                            <p class="font-semibold" style="margin-bottom: 0.25rem; font-size: 0.875rem;">Standards:</h3>
-                            <ul>
-                                <li>Moment’s Notice</li>
-                                <li>Giant Steps</li>
-                            </ul>
+                            <p class="font-semibold" style="margin-bottom: 0.25rem; font-size: 0.875rem;">Standards:</p>
+                            <p style="font-size: 0.875rem;">Moment’s Notice, Giant Steps</p>
                         </div>
                     </div>
                 </div>
@@ -993,7 +944,7 @@
                 <div class="module-card" onclick="toggleModule(this)">
                     <div class="module-header">
                         <h3 class="module-title">
-                            <span class="module-icon">🔮</span>Módulo 10 – Jazz Moderno
+                            <span class="module-icon">🔮</span>MÓDULO 10 – Jazz Moderno: Menor Melódica y Arpegios Derivados
                         </h3>
                         <svg class="module-toggle-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
                     </div>
@@ -1003,18 +954,16 @@
                             <span class="font-semibold">Objetivo:</span> Usar la escala menor melódica y sus arpegios derivados para crear sonoridades modernas.
                         </p>
                         <div>
-                            <h3 class="font-semibold" style="font-size: 0.875rem; margin-bottom: 0.25rem;">Clases:</h3>
                             <ul>
-                                <li>Modos más usados de la menor melódica</li>
-                                <li>Arpegios y acordes derivados (cuartales, híbridos, sobrepuestos)</li>
+                                <li>Modos de la escala menor melódica</li>
+                                <li>Modos como escala y como arpegios</li>
+                                <li>Drops de la escala menor melódica</li>
+                                <li>Arpegios derivados y estructuras cuartales</li>
                             </ul>
                         </div>
                         <div>
-                            <p class="font-semibold" style="margin-bottom: 0.25rem; font-size: 0.875rem;">Standards:</h3>
-                            <ul>
-                                <li>Speak No Evil</li>
-                                <li>Footprints</li>
-                            </ul>
+                            <p class="font-semibold" style="margin-bottom: 0.25rem; font-size: 0.875rem;">Standards:</p>
+                            <p style="font-size: 0.875rem;">Speak No Evil, Footprints, Infant Eyes (Wayne Shorter)</p>
                         </div>
                     </div>
                 </div>
@@ -1028,150 +977,23 @@
                 <div class="module-card" onclick="toggleModule(this)">
                     <div class="module-header">
                         <h3 class="module-title">
-                            <span class="module-icon">🎵</span>Módulo 1 – Acordes 7/9
+                            <span class="module-icon">🎵</span>MÓDULO 1 – Acordes 7/9: Elegancia y Color
                         </h3>
                         <svg class="module-toggle-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
                     </div>
                     <div class="module-content">
                         <hr>
-                        <p><span class="font-semibold">Standard:</span> Blues Bossa</p>
                         <p>
-                            <span class="font-semibold">Objetivo:</span> Sustituir los acordes tradicionales aprendidos en la Universidad del Jazz por nuevas sonoridades modernas. **Estas sustituciones añaden tensiones y colores que eran menos comunes en el jazz más tradicional.** Se trabaja la superposición de acordes para generar acompañamientos más ricos, coloridos y con un carácter armónico fresco, ideal para contextos modernos.
+                            <span class="font-semibold">Standard:</span> Blues Bossa
                         </p>
-                    </div>
-                </div>
-
-                <div class="module-card" onclick="toggleModule(this)">
-                    <div class="module-header">
-                        <h3 class="module-title">
-                            <span class="module-icon">🎹</span>Módulo 2 – Arpegios 2+1
-                        </h3>
-                        <svg class="module-toggle-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
-                    </div>
-                    <div class="module-content">
-                        <hr>
-                        <p><span class="font-semibold">Standard:</span> Impressions</p>
                         <p>
-                            <span class="font-semibold">Objetivo:</span> Introducir la improvisación moderna mediante el patrón visual 2+1, que facilita el aprendizaje y la aplicación inmediata sobre distintos acordes. Incluye el uso de superestructuras y notas de color para enriquecer la sonoridad, permitiendo crear líneas melódicas con un mínimo de información memorizada.
-                        </p>
-                    </div>
-                </div>
-
-                <div class="module-card" onclick="toggleModule(this)">
-                    <div class="module-header">
-                        <h3 class="module-title">
-                            <span class="module-icon">🎸</span>Módulo 3 – Drops Lage Lund
-                        </h3>
-                        <svg class="module-toggle-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
-                    </div>
-                    <div class="module-content">
-                        <hr>
-                        <p><span class="font-semibold">Standard:</span> Solar</p>
-                        <p>
-                            <span class="font-semibold">Objetivo:</span> Trabajar con las notas base de los acordes (raíz, 3ª, 5ª y 7ª) aplicando voicings abiertos y grandes intervalos para dar estabilidad armónica. El uso de Solar como estándar permite aplicar este enfoque en progresiones con múltiples II–V–I, generando un sonido moderno y elegante.
-                        </p>
-                    </div>
-                </div>
-
-                <div class="module-card" onclick="toggleModule(this)">
-                    <div class="module-header">
-                        <h3 class="module-title">
-                            <span class="module-icon">🎶</span>Módulo 4 – Tríadas Tim Miller
-                        </h3>
-                        <svg class="module-toggle-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
-                    </div>
-                    <div class="module-content">
-                        <hr>
-                        <p><span class="font-semibold">Standard:</span> Blues Menor</p>
-                        <p>
-                            <span class="font-semibold">Objetivo:</span> Explorar tríadas abiertas y cerradas con abundantes notas de color, inspiradas en el estilo de Tim Miller. Este módulo aporta sonoridades modernas tanto en acompañamiento como en improvisación, con un enfoque armónico y melódico simultáneo.
-                        </p>
-                    </div>
-                </div>
-
-                <div class="module-card" onclick="toggleModule(this)">
-                    <div class="module-header">
-                        <h3 class="module-title">
-                            <span class="module-icon">🎼</span>Módulo 5 – Tríadas Abiertas I
-                        </h3>
-                        <svg class="module-toggle-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
-                    </div>
-                    <div class="module-content">
-                        <hr>
-                        <p><span class="font-semibold">Standard:</span> Days of Wine and Roses</p>
-                        <p>
-                            <span class="font-semibold">Objetivo:</span> Introducir las tríadas abiertas como recurso para crear líneas melódicas amplias y resonantes. Se estudia el uso de apoyaturas hacia estas tríadas, lo que abre la puerta a nuevos acordes y posibilidades melódicas derivadas de su estructura.
-                        </p>
-                    </div>
-                </div>
-
-                <div class="module-card" onclick="toggleModule(this)">
-                    <div class="module-header">
-                        <h3 class="module-title">
-                            <span class="module-icon">🎷</span>Módulo 6 – Tríadas Cerradas
-                        </h3>
-                        <svg class="module-toggle-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
-                    </div>
-                    <div class="module-content">
-                        <hr>
-                        <p><span class="font-semibold">Standard:</span> Tune Up</p>
-                        <p>
-                            <span class="font-semibold">Objetivo:</span> Aplicar movimientos diatónicos y notas de color dentro de tríadas cerradas para lograr fluidez melódica y riqueza armónica. Se enfoca en la precisión de la digitación y en la claridad de cada nota, incluso en contextos con cambios rápidos de acordes.
-                        </p>
-                    </div>
-                </div>
-
-                <div class="module-card" onclick="toggleModule(this)">
-                    <div class="module-header">
-                        <h3 class="module-title">
-                            <span class="module-icon">🥁</span>Módulo 7 – Pares de Tríadas
-                        </h3>
-                        <svg class="module-toggle-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
-                    </div>
-                    <div class="module-content">
-                        <hr>
-                        <p><span class="font-semibold">Standard:</span> Blues</p>
-                        <p>
-                            <span class="font-semibold">Objetivo:</span> Estudiar tríadas superpuestas aplicadas a diferentes modos y acordes para descubrir colores oscuros y sonoridades poco habituales. Se exploran combinaciones que permiten improvisar y reharmonizar sobre un blues, generando acordes inéditos con bajo definido.
-                        </p>
-                    </div>
-                </div>
-
-                <div class="module-card" onclick="toggleModule(this)">
-                    <div class="module-header">
-                        <h3 class="module-title">
-                            <span class="module-icon">🎸</span>Módulo 8 – Tríadas Abiertas II
-                        </h3>
-                        <svg class="module-toggle-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
-                    </div>
-                    <div class="module-content">
-                        <hr>
-                        <p><span class="font-semibold">Standard:</span> Peace</p>
-                        <p>
-                            <span class="font-semibold">Objetivo:</span> Desarrollar movimientos armónicos avanzados a partir de tríadas abiertas. Se estudian desplazamientos de dos y tres voces para mayor fluidez, así como tríadas superpuestas en contextos tonales armónicos, ampliando el rango de recursos armónicos y melódicos. **Esta técnica crea un sonido más espacioso y etéreo en la improvisación.**
-                        </p>
-                    </div>
-                </div>
-
-                <div class="module-card" onclick="toggleModule(this)">
-                    <div class="module-header">
-                        <h3 class="module-title">
-                            <span class="module-icon">✨</span>Módulo 9 – Limitaciones Creativas
-                        </h3>
-                        <svg class="module-toggle-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
-                    </div>
-                    <div class="module-content">
-                        <hr>
-                        <p><span class="font-semibold">Standard:</span> Stella by Starlight</p>
-                        <p>
-                            <span class="font-semibold">Objetivo:</span> Trabajar con limitaciones técnicas y armónicas para estimular la creatividad. Estas restricciones permiten una nueva visión de las escalas, arpegios y notas de color, aplicadas a un estándar armónicamente desafiante como Stella by Starlight.
+                            <span class="font-semibold">Objetivo:</span> Sustituir los acordes tradicionales por sonoridades modernas provenientes del acorde 7-9.
                         </p>
                         <div>
-                            <h3 class="font-semibold" style="font-size: 0.875rem; margin-bottom: 0.25rem;">Flujo de trabajo sugerido:</h3>
-                            <p style="font-size: 0.875rem;">1. Elige una limitación (por ejemplo, usar solo las notas 1, 3, 5 y 7 de cada acorde).</p>
-                            <p style="font-size: 0.875rem;">2. Improvisa una primera vez con esa limitación.</p>
-                            <p style="font-size: 0.875rem;">3. Añade una segunda limitación (por ejemplo, solo usar notas de paso cromáticas entre las notas del arpegio).</p>
-                            <p style="font-size: 0.875rem;">4. Improvisa una segunda vez, combinando ambas limitaciones.</p>
+                            <ul>
+                                <li>Superposición de acordes para acompañamientos ricos</li>
+                                <li>Creación de un carácter armónico fresco</li>
+                            </ul>
                         </div>
                     </div>
                 </div>
@@ -1179,18 +1001,217 @@
                 <div class="module-card" onclick="toggleModule(this)">
                     <div class="module-header">
                         <h3 class="module-title">
-                            <span class="module-icon">🤯</span>Módulo 10 – Tríadas con Notas de Paso y Cromáticas
+                            <span class="module-icon">🎹</span>MÓDULO 2 – Arpegios 2+1: Esquemas Simples
                         </h3>
                         <svg class="module-toggle-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
                     </div>
                     <div class="module-content">
                         <hr>
-                        <p><span class="font-semibold">Standard:</span> All the Things You Are</p>
                         <p>
-                            <span class="font-semibold">Objetivo:</span> Combinar las notas de las tríadas con notas de paso y cromáticas entendidas como notas de color. Este cromatismo no sigue el patrón bebop, sino que se aplica libremente para resolver en el último tiempo del compás, logrando un impacto sonoro moderno y expresivo.
+                            <span class="font-semibold">Standard:</span> Impressions
                         </p>
-                        <p class="font-semibold" style="margin-top: 0.5rem; margin-bottom: 0.25rem; font-size: 0.875rem;">Sonoridad:</p>
-                        <p style="font-size: 0.875rem;">Esta técnica crea un fraseo que se siente más "libre" y menos estructurado, con destellos cromáticos que resuelven de forma inesperada.</p>
+                        <p>
+                            <span class="font-semibold">Objetivo:</span> Introducir la improvisación moderna mediante arpegios visuales 2+1.
+                        </p>
+                        <div>
+                            <ul>
+                                <li>Uso de superestructuras y notas de color</li>
+                                <li>Creación de líneas melódicas con mínima memorización</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="module-card" onclick="toggleModule(this)">
+                    <div class="module-header">
+                        <h3 class="module-title">
+                            <span class="module-icon">🎸</span>MÓDULO 3 – Drops Lage Lund: Aperturas y Movimiento
+                        </h3>
+                        <svg class="module-toggle-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                    </div>
+                    <div class="module-content">
+                        <hr>
+                        <p>
+                            <span class="font-semibold">Standard:</span> Solar
+                        </p>
+                        <p>
+                            <span class="font-semibold">Objetivo:</span> Trabajar con notas base (1, 3, 5, 7) aplicando voicings abiertos y grandes intervalos.
+                        </p>
+                        <div>
+                            <ul>
+                                <li>Estabilidad armónica con apertura de voces</li>
+                                <li>Sonoridad moderna y elegante</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="module-card" onclick="toggleModule(this)">
+                    <div class="module-header">
+                        <h3 class="module-title">
+                            <span class="module-icon">🎶</span>MÓDULO 4 – Tríadas Tim Miller: Colores y Texturas Abiertas
+                        </h3>
+                        <svg class="module-toggle-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                    </div>
+                    <div class="module-content">
+                        <hr>
+                        <p>
+                            <span class="font-semibold">Standard:</span> Blues Menor
+                        </p>
+                        <p>
+                            <span class="font-semibold">Objetivo:</span> Explorar tríadas abiertas y cerradas con abundantes notas de color.
+                        </p>
+                        <div>
+                            <ul>
+                                <li>Aplicación en acompañamiento e improvisación</li>
+                                <li>Enfoque armónico y melódico simultáneo</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="module-card" onclick="toggleModule(this)">
+                    <div class="module-header">
+                        <h3 class="module-title">
+                            <span class="module-icon">🎼</span>MÓDULO 5 – Tríadas Abiertas I: Espacio y Profundidad
+                        </h3>
+                        <svg class="module-toggle-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                    </div>
+                    <div class="module-content">
+                        <hr>
+                        <p>
+                            <span class="font-semibold">Standard:</span> Days of Wine and Roses
+                        </p>
+                        <p>
+                            <span class="font-semibold">Objetivo:</span> Introducir tríadas abiertas para líneas melódicas amplias y resonantes.
+                        </p>
+                        <div>
+                            <ul>
+                                <li>Uso de apoyaturas hacia las tríadas</li>
+                                <li>Nuevas posibilidades armónicas y melódicas</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="module-card" onclick="toggleModule(this)">
+                    <div class="module-header">
+                        <h3 class="module-title">
+                            <span class="module-icon">🎷</span>MÓDULO 6 – Tríadas Cerradas: Precisión y Claridad
+                        </h3>
+                        <svg class="module-toggle-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                    </div>
+                    <div class="module-content">
+                        <hr>
+                        <p>
+                            <span class="font-semibold">Standard:</span> Tune Up
+                        </p>
+                        <p>
+                            <span class="font-semibold">Objetivo:</span> Aplicar movimientos diatónicos y notas de color dentro de tríadas cerradas.
+                        </p>
+                        <div>
+                            <ul>
+                                <li>Fluidez melódica en cambios rápidos</li>
+                                <li>Claridad en cada nota y digitación precisa</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="module-card" onclick="toggleModule(this)">
+                    <div class="module-header">
+                        <h3 class="module-title">
+                            <span class="module-icon">🥁</span>MÓDULO 7 – Pares de Tríadas: Colores y Combinaciones
+                        </h3>
+                        <svg class="module-toggle-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                    </div>
+                    <div class="module-content">
+                        <hr>
+                        <p>
+                            <span class="font-semibold">Standard:</span> Blues
+                        </p>
+                        <p>
+                            <span class="font-semibold">Objetivo:</span> Estudiar tríadas superpuestas para descubrir colores oscuros y poco habituales.
+                        </p>
+                        <div>
+                            <ul>
+                                <li>Improvisación y reharmonización sobre blues</li>
+                                <li>Creación de acordes inéditos con bajo definido</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="module-card" onclick="toggleModule(this)">
+                    <div class="module-header">
+                        <h3 class="module-title">
+                            <span class="module-icon">🎸</span>MÓDULO 8 – Tríadas Abiertas II: Movimiento y Contextos
+                        </h3>
+                        <svg class="module-toggle-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                    </div>
+                    <div class="module-content">
+                        <hr>
+                        <p>
+                            <span class="font-semibold">Standard:</span> Peace
+                        </p>
+                        <p>
+                            <span class="font-semibold">Objetivo:</span> Desarrollar movimientos armónicos avanzados desde tríadas abiertas.
+                        </p>
+                        <div>
+                            <ul>
+                                <li>Desplazamientos de dos y tres voces</li>
+                                <li>Tríadas superpuestas en contextos tonales ampliados</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="module-card" onclick="toggleModule(this)">
+                    <div class="module-header">
+                        <h3 class="module-title">
+                            <span class="module-icon">✨</span>MÓDULO 9 – Limitaciones Creativas: Innovar desde la Restricción
+                        </h3>
+                        <svg class="module-toggle-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                    </div>
+                    <div class="module-content">
+                        <hr>
+                        <p>
+                            <span class="font-semibold">Standard:</span> Stella by Starlight
+                        </p>
+                        <p>
+                            <span class="font-semibold">Objetivo:</span> Usar limitaciones técnicas y armónicas para estimular la creatividad.
+                        </p>
+                        <div>
+                            <ul>
+                                <li>Nueva visión de escalas, arpegios y notas de color</li>
+                                <li>Aplicación en un estándar armónicamente complejo</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="module-card" onclick="toggleModule(this)">
+                    <div class="module-header">
+                        <h3 class="module-title">
+                            <span class="module-icon">🤯</span>MÓDULO 10 – Tríadas con Notas de Paso y Cromáticas: Fluidez y Expansión
+                        </h3>
+                        <svg class="module-toggle-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                    </div>
+                    <div class="module-content">
+                        <hr>
+                        <p>
+                            <span class="font-semibold">Standard:</span> All the Things You Are
+                        </p>
+                        <p>
+                            <span class="font-semibold">Objetivo:</span> Combinar tríadas con notas de paso y cromáticas entendidas como notas de color.
+                        </p>
+                        <div>
+                            <ul>
+                                <li>Cromatismo libre, no basado en bebop</li>
+                                <li>Resolución en el último tiempo del compás</li>
+                                <li>Impacto sonoro moderno y expresivo</li>
+                            </ul>
+                        </div>
                     </div>
                 </div>
 
@@ -1199,7 +1220,7 @@
     </main>
 
     <footer class="footer">
-        <p>&copy; 2025 UNIVERSIDAD DEL JAZZ. Todos los derechos reservados.</p>
+        <p>© 2025 UNIVERSIDAD DEL JAZZ. Todos los derechos reservados.</p>
     </footer>
 
     <script>
@@ -1258,3 +1279,5 @@
     </script>
 </body>
 </html>
+
+
