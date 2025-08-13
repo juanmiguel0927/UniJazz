@@ -222,15 +222,15 @@
         <!-- Contenedor de los botones de las pestañas con un diseño más pulido -->
         <div class="tab-container">
             <!-- Pestaña de "DE CERO AL JAZZ" -->
-            <button id="tab-preparatory" class="tab-button">
+            <button id="tab-preparatory" data-tab-id="preparatory" class="tab-button">
                 DE CERO AL JAZZ
             </button>
             <!-- Pestaña de "UNIVERSIDAD DEL JAZZ" -->
-            <button id="tab-university" class="tab-button">
+            <button id="tab-university" data-tab-id="university" class="tab-button">
                 UNIVERSIDAD DEL JAZZ
             </button>
             <!-- Pestaña de "SISTEMA MODERNO" -->
-            <button id="tab-modern-system" class="tab-button">
+            <button id="tab-modern-system" data-tab-id="modern-system" class="tab-button">
                 SISTEMA MODERNO
             </button>
         </div>
@@ -1084,8 +1084,10 @@
         };
 
         tabs.forEach(tab => {
+            // Se usa el atributo data-tab-id para un identificador más robusto
+            // que evita problemas con nombres de ID con múltiples guiones.
             tab.addEventListener('click', () => {
-                const tabId = tab.id.split('-')[1];
+                const tabId = tab.getAttribute('data-tab-id');
                 showTab(tabId);
             });
         });
