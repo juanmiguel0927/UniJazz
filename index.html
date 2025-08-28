@@ -395,7 +395,7 @@
             </button>
         </div>
 
-        <div id="content-preparatory" class="tab-content">
+        <div id="content-preparatory" class="tab-content hidden">
             <div class="grid-container">
 
                 <!-- MÓDULO 1 – El Idioma de los Acordes -->
@@ -663,291 +663,328 @@
             </div>
         </div>
 
-        <div id="content-university" class="tab-content hidden">
+        <div id="content-university" class="tab-content">
             <div class="grid-container">
 
                 <div class="module-card" onclick="toggleModule(this)">
                     <div class="module-header">
                         <h3 class="module-title">
-                            <span class="module-icon">🎸</span>MÓDULO 1 – Blues: Fundamentos y Expansión del Lenguaje
+                            <span class="module-icon">🎸</span>MÓDULO 1 – Fundamentos del Blues y la Forma
                         </h3>
                         <svg class="module-toggle-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
                     </div>
                     <div class="module-content">
                         <hr>
                         <p>
-                            <span class="font-semibold">Objetivo:</span> Dominar la estructura del blues y ampliar el vocabulario melódico y armónico.
+                            <span class="font-semibold">Objetivo:</span> Comprender la estructura básica del blues, sus escalas características y las primeras herramientas de improvisación rítmica y melódica.
                         </p>
-                        <div>
-                            <ul>
-                                <li>Forma y walking bass</li>
-                                <li>Resoluciones blues (mayor y menor)</li>
-                                <li>“Bombardear” una nota y recursos afroamericanos</li>
-                                <li>Uso de #11 en dominantes</li>
-                            </ul>
-                        </div>
-                        <div>
-                            <p class="font-semibold" style="margin-bottom: 0.25rem; font-size: 0.875rem;">Standards:</p>
-                            <p style="font-size: 0.875rem;">Blues by Five, Now’s the Time</p>
-                        </div>
+                        <p class="font-semibold" style="margin-top: 1rem;">Clase 1:</p>
+                        <ul>
+                            <li>Forma del blues: estructura de 12 compases.</li>
+                            <li>Walking bass: fundamentos y ejercicios básicos.</li>
+                            <li>Pentatónica Blues Mayor.</li>
+                            <li>Pentatónica Blues Menor.</li>
+                            <li>Resoluciones en el blues: enfoque en cadencias.</li>
+                            <li>Bombardear una nota: idea melódica sobre un centro tonal.</li>
+                            <li>Estándar de referencia: Blues by Five (Miles Davis).</li>
+                        </ul>
+                        <p class="font-semibold" style="margin-top: 1rem;">Clase 2:</p>
+                        <ul>
+                            <li>Ritmo y acompañamiento básico (comping).</li>
+                            <li>Onceava aumentada en los dominantes.</li>
+                            <li>Improvisar con 2, 3 y 4 notas: explorando ritmo y espacio.</li>
+                            <li>Escala Afroamerican: concepto y aplicación.</li>
+                            <li>Estándar de referencia: Now’s the Time (Charlie Parker).</li>
+                        </ul>
                     </div>
                 </div>
 
                 <div class="module-card" onclick="toggleModule(this)">
                     <div class="module-header">
                         <h3 class="module-title">
-                            <span class="module-icon">🎹</span>MÓDULO 2 – Modal: Libertad y Estructura en el Jazz Modal
+                            <span class="module-icon">🎹</span>MÓDULO 2 – Introducción al Modal
                         </h3>
                         <svg class="module-toggle-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
                     </div>
                     <div class="module-content">
                         <hr>
                         <p>
-                            <span class="font-semibold">Objetivo:</span> Construir un fraseo modal sólido con recursos armónicos y rítmicos.
+                            <span class="font-semibold">Objetivo:</span> Conocer los fundamentos del jazz modal y aprender a improvisar usando el modo dórico y recursos melódicos basados en cuartas.
                         </p>
-                        <div>
-                            <ul>
-                                <li>Escala dórica</li>
-                                <li>Arpegio menor</li>
-                                <li>Nota dórica</li>
-                                <li>Forma AABA</li>
-                                <li>Trabajo con cuartas (2+4, 4+2)</li>
-                            </ul>
-                        </div>
-                        <div>
-                            <p class="font-semibold" style="margin-bottom: 0.25rem; font-size: 0.875rem;">Standard:</p>
-                            <p style="font-size: 0.875rem;">So What (Miles Davis)</p>
-                        </div>
+                        <p class="font-semibold" style="margin-top: 1rem;">Clase 1:</p>
+                        <ul>
+                            <li>Modo Dórico: explicación y aplicación.</li>
+                            <li>Arpegio menor con séptima.</li>
+                            <li>Nota característica dórica.</li>
+                            <li>Forma AABA y su contexto modal.</li>
+                            <li>Estándar de referencia: So What (Miles Davis).</li>
+                        </ul>
+                        <p class="font-semibold" style="margin-top: 1rem;">Clase 2:</p>
+                        <ul>
+                            <li>Fórmula 2+4 y 4+2: construcción melódica con cuartas.</li>
+                            <li>Improvisar con cuartas como recurso principal.</li>
+                            <li>Estándares de referencia: So What (Miles Davis), Cantaloupe Island (Herbie Hancock).</li>
+                        </ul>
                     </div>
                 </div>
 
                 <div class="module-card" onclick="toggleModule(this)">
                     <div class="module-header">
                         <h3 class="module-title">
-                            <span class="module-icon">🕺</span>MÓDULO 3 – Swing: Articulación y Fluidez Rítmica
+                            <span class="module-icon">🕺</span>MÓDULO 3 – Escalas Mayores y Menores, Armonía y Melodía
                         </h3>
                         <svg class="module-toggle-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
                     </div>
                     <div class="module-content">
                         <hr>
                         <p>
-                            <span class="font-semibold">Objetivo:</span> Interiorizar la articulación y swing tradicional para frasear con fluidez.
+                            <span class="font-semibold">Objetivo:</span> Profundizar en la relación entre escalas mayores y menores, y aprender recursos de melodía y armonía para improvisar sobre estándares tonales.
                         </p>
-                        <div>
-                            <ul>
-                                <li>Guide tones (3 y 7) y atracción de notas</li>
-                                <li>Terceras y séptimas</li>
-                                <li>Metrónomo en 2 y 4</li>
-                                <li>Contramelodía</li>
-                                <li>Voicings drop 2 y drop 3</li>
-                                <li>Patrones cíclicos</li>
-                            </ul>
-                        </div>
-                        <div>
-                            <p class="font-semibold" style="margin-bottom: 0.25rem; font-size: 0.875rem;">Standard:</p>
-                            <p style="font-size: 0.875rem;">Autumn Leaves</p>
-                        </div>
+                        <p class="font-semibold" style="margin-top: 1rem;">Clase 1:</p>
+                        <ul>
+                            <li>Escala mayor y escala menor.</li>
+                            <li>Guide tones: comprensión y aplicación.</li>
+                            <li>Atracción entre la tercera y la séptima.</li>
+                            <li>Contramelodía: improvisar a partir de la melodía base.</li>
+                            <li>Metrónomo en 2 y 4 para swing.</li>
+                            <li>Estándar de referencia: Autumn Leaves.</li>
+                        </ul>
+                        <p class="font-semibold" style="margin-top: 1rem;">Clase 2:</p>
+                        <ul>
+                            <li>Drop 2: construcción y aplicación en voicings.</li>
+                            <li>Patrones cíclicos.</li>
+                            <li>Nota común: conexión entre acordes.</li>
+                            <li>Aproximaciones cromáticas.</li>
+                            <li>Estándar de referencia: Beautiful Love.</li>
+                        </ul>
                     </div>
                 </div>
 
                 <div class="module-card" onclick="toggleModule(this)">
                     <div class="module-header">
                         <h3 class="module-title">
-                             <span class="module-icon">🎶</span>MÓDULO 4 – Ballad: Expresión y Profundidad Armónica
+                             <span class="module-icon">🎶</span>MÓDULO 4 – Balada y Expresión Tonal
                         </h3>
                         <svg class="module-toggle-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
                     </div>
                     <div class="module-content">
                         <hr>
                         <p>
-                            <span class="font-semibold">Objetivo:</span> Desarrollar la interpretación expresiva y el control armónico en tempo lento.
+                            <span class="font-semibold">Objetivo:</span> Dominar el acompañamiento e improvisación en baladas, con un enfoque en voice leading, pentatónicas y la expresividad del espacio.
                         </p>
-                        <div>
-                            <ul>
-                                <li>Voice leading</li>
-                                <li>Arpegios con séptima</li>
-                                <li>Acordes con séptima, novena, once y trece</li>
-                                <li>Acompañamiento</li>
-                                <li>Pentatónica tonal</li>
-                                <li>Chord melody</li>
-                            </ul>
-                        </div>
-                        <div>
-                            <p class="font-semibold" style="margin-bottom: 0.25rem; font-size: 0.875rem;">Standard:</p>
-                            <p style="font-size: 0.875rem;">Misty</p>
-                        </div>
+                        <p class="font-semibold" style="margin-top: 1rem;">Clase 1:</p>
+                        <ul>
+                            <li>Guide tones y voice leading descendente.</li>
+                            <li>Conexión entre terceras y séptimas.</li>
+                            <li>Pentatónica tonal para baladas.</li>
+                            <li>Pentatónica secundaria en cambios armónicos.</li>
+                            <li>Permutaciones melódicas (al estilo Jerry Bergonzi).</li>
+                            <li>Estándar de referencia: Misty.</li>
+                        </ul>
+                        <p class="font-semibold" style="margin-top: 1rem;">Clase 2:</p>
+                        <ul>
+                            <li>Acordes Drop 3 aplicados a baladas.</li>
+                            <li>Improvisar con espacios.</li>
+                            <li>Core melody: mantener el centro melódico.</li>
+                            <li>Estándar de referencia: Misty.</li>
+                        </ul>
                     </div>
                 </div>
 
                 <div class="module-card" onclick="toggleModule(this)">
                     <div class="module-header">
                         <h3 class="module-title">
-                            <span class="module-icon">🎼</span>MÓDULO 5 – ii–V–I: El ADN del Lenguaje Jazzístico
+                            <span class="module-icon">🎼</span>MÓDULO 5 – El 2-5-1 y su Dominio
                         </h3>
                         <svg class="module-toggle-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
                     </div>
                     <div class="module-content">
                         <hr>
                         <p>
-                            <span class="font-semibold">Objetivo:</span> Dominar la progresión ii–V–I en diferentes tonalidades y contextos.
+                            <span class="font-semibold">Objetivo:</span> Desarrollar dominio técnico y melódico sobre la progresión II-V-I, tanto en contexto mayor como menor.
                         </p>
-                        <div>
-                            <ul>
-                                <li>Escala menor melódica</li>
-                                <li>Modo alterado</li>
-                                <li>Arpegios extendidos</li>
-                                <li>Compings (mayor7, menor7, 7, 7 alterado, m7♭5)</li>
-                            </ul>
-                        </div>
-                        <div>
-                            <p class="font-semibold" style="margin-bottom: 0.25rem; font-size: 0.875rem;">Standard:</p>
-                            <p style="font-size: 0.875rem;">Tune Up (Miles Davis)</p>
-                        </div>
+                        <p class="font-semibold" style="margin-top: 1rem;">Clase 1:</p>
+                        <ul>
+                            <li>Arpegios con séptima: menores, dominantes y mayores en todo el diapasón.</li>
+                            <li>Conectar arpegios en un 2-5-1 mayor.</li>
+                            <li>Compings cuartales y su uso en progresión.</li>
+                            <li>Estándar de referencia: Tune Up (Miles Davis).</li>
+                        </ul>
+                        <p class="font-semibold" style="margin-top: 1rem;">Clase 2:</p>
+                        <ul>
+                            <li>Acorde menor 7♭5 y acorde alterado.</li>
+                            <li>Arpegio menor 7♭5 aplicado al acorde alterado (locrio/frigio).</li>
+                            <li>Compings alterados: cuartales y variaciones.</li>
+                            <li>2-5-1 menor y 2-5-1-6 mayor (con sexto dominante).</li>
+                            <li>Estándares de referencia: Tune Up, Lady Bird.</li>
+                        </ul>
                     </div>
                 </div>
 
                 <div class="module-card" onclick="toggleModule(this)">
                     <div class="module-header">
                         <h3 class="module-title">
-                            <span class="module-icon">🎺</span>MÓDULO 6 – Bebop 1: Fundamentos de la Articulación Bebop
+                            <span class="module-icon">🎺</span>MÓDULO 6 – Bebop I
                         </h3>
                         <svg class="module-toggle-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
                     </div>
                     <div class="module-content">
                         <hr>
                         <p>
-                            <span class="font-semibold">Objetivo:</span> Incorporar el fraseo y articulación característica del bebop.
+                            <span class="font-semibold">Objetivo:</span> Comprender y aplicar los fundamentos del lenguaje bebop en improvisación, a través de escalas, cromatismos y recursos melódicos.
                         </p>
-                        <div>
-                            <ul>
-                                <li>Escala bebop dominante</li>
-                                <li>Nota cordal a nota cordal</li>
-                                <li>Empezar la línea en nota no cordal</li>
-                                <li>Enclosure y desvío</li>
-                                <li>Finales</li>
-                                <li>Patrón cíclico</li>
-                                <li>Extensión desde la séptima</li>
-                                <li>Pivote</li>
-                            </ul>
-                        </div>
-                        <div>
-                            <p class="font-semibold" style="margin-bottom: 0.25rem; font-size: 0.875rem;">Standards:</p>
-                            <p style="font-size: 0.875rem;">Ornithology, Donna Lee</p>
-                        </div>
+                        <p class="font-semibold" style="margin-top: 1rem;">Clase 1:</p>
+                        <ul>
+                            <li>Escala Bebop dominante.</li>
+                            <li>Nota cordal a nota cordal.</li>
+                            <li>Elaboraciones desde nota no cordal: cromatismo, negras, síncopas, tresillos.</li>
+                            <li>Enclosure.</li>
+                            <li>Desvío y finales.</li>
+                            <li>Estándar de referencia: Ornithology.</li>
+                        </ul>
+                        <p class="font-semibold" style="margin-top: 1rem;">Clase 2:</p>
+                        <ul>
+                            <li>Patrón cíclico.</li>
+                            <li>Doble bordadura cromática.</li>
+                            <li>Extensión del acorde desde la séptima.</li>
+                            <li>Pivote o cambio de contorno.</li>
+                            <li>Barrido.</li>
+                            <li>Estándar de referencia: Ornithology.</li>
+                        </ul>
                     </div>
                 </div>
 
                 <div class="module-card" onclick="toggleModule(this)">
                     <div class="module-header">
                         <h3 class="module-title">
-                            <span class="module-icon">🎺</span>MÓDULO 7 – Bebop 2: Vocabulario Avanzado y Diminuido
+                            <span class="module-icon">🎺</span>MÓDULO 7 – Bebop II (VBOC 2)
                         </h3>
                         <svg class="module-toggle-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
                     </div>
                     <div class="module-content">
                         <hr>
                         <p>
-                            <span class="font-semibold">Objetivo:</span> Ampliar el vocabulario bebop con recursos armónicos avanzados.
+                            <span class="font-semibold">Objetivo:</span> Aplicar el lenguaje bebop al II-V-I, integrando recursos técnicos, transcripciones y escalas simétricas.
                         </p>
-                        <div>
-                            <ul>
-                                <li>Licks ii–V–I</li>
-                                <li>Transcripciones</li>
-                                <li>Frases melódicas</li>
-                                <li>Arpegio disminuido</li>
-                                <li>Escala disminuida</li>
-                                <li>Acordes disminuidos</li>
-                                <li>Triadas mayores en la escala disminuida</li>
-                                <li>Escala de tonos enteros</li>
-                                <li>Arpegio aumentado</li>
-                            </ul>
-                        </div>
-                        <div>
-                            <p class="font-semibold" style="margin-bottom: 0.25rem; font-size: 0.875rem;">Standards:</p>
-                            <p style="font-size: 0.875rem;">Cherokee, Groovin’ High</p>
-                        </div>
+                        <p class="font-semibold" style="margin-top: 1rem;">Clase 1:</p>
+                        <ul>
+                            <li>Líneas para el 2-5-1: crear frases usando recursos previos.</li>
+                            <li>Transcripción de solos: extracción de ideas.</li>
+                            <li>Melodías y frases aplicadas al 2-5-1.</li>
+                            <li>Estándar de referencia: Cherokee.</li>
+                        </ul>
+                        <p class="font-semibold" style="margin-top: 1rem;">Clase 2:</p>
+                        <ul>
+                            <li>Arpegio disminuido dentro del dominante.</li>
+                            <li>Escala disminuida.</li>
+                            <li>Triadas mayores en la escala disminuida.</li>
+                            <li>Escala de tonos enteros.</li>
+                            <li>Arpegios aumentados.</li>
+                            <li>Estándar de referencia: Groovin’ High (Dizzy Gillespie).</li>
+                        </ul>
                     </div>
                 </div>
 
                 <div class="module-card" onclick="toggleModule(this)">
                     <div class="module-header">
                         <h3 class="module-title">
-                            <span class="module-icon">🤸‍♀️</span>MÓDULO 8 – Rhythm Changes: Velocidad y Control Armónico
+                            <span class="module-icon">🤸‍♀️</span>MÓDULO 8 – Rhythm Changes (AABA)
                         </h3>
                         <svg class="module-toggle-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
                     </div>
                     <div class="module-content">
                         <hr>
                         <p>
-                            <span class="font-semibold">Objetivo:</span> Dominar la forma de Rhythm Changes y aplicar patrones bebop sobre progresiones rápidas.
+                            <span class="font-semibold">Objetivo:</span> Dominar la forma AABA de los rhythm changes y aplicar recursos de improvisación melódica, armónica y rítmica.
                         </p>
-                        <div>
-                            <ul>
-                                <li>Forma AABA</li>
-                                <li>Patrones 1, 2, 3, 5 para improvisar sobre Rhythm Changes</li>
-                                <li>Estrategias de conexión melódica en progresiones dominantes</li>
-                                <li>Tocar bebop en la parte B sobre los dominantes</li>
-                                <li>Variaciones melódicas y rítmicas para el puente</li>
-                            </ul>
-                        </div>
-                        <div>
-                            <p class="font-semibold" style="margin-bottom: 0.25rem; font-size: 0.875rem;">Standards:</p>
-                            <p style="font-size: 0.875rem;">I Got Rhythm, Oleo</p>
-                        </div>
+                        <p class="font-semibold" style="margin-top: 1rem;">Clase 1:</p>
+                        <ul>
+                            <li>Forma AABA y análisis.</li>
+                            <li>Walking y compings (acordes de acompañamiento).</li>
+                            <li>Pentatónica y blues en la parte A.</li>
+                            <li>Escala Afroamericana.</li>
+                            <li>Arpegios dominantes en la parte B.</li>
+                            <li>Estándar de referencia: Anthropology (Charlie Parker).</li>
+                        </ul>
+                        <p class="font-semibold" style="margin-top: 1rem;">Clase 2:</p>
+                        <ul>
+                            <li>Arpegios conectados en la parte A.</li>
+                            <li>Improvisación sobre cada acorde.</li>
+                            <li>Uso de ♭9 y ♯9 en dominantes.</li>
+                            <li>Compings avanzados.</li>
+                            <li>Escala bebop aplicada a la parte B.</li>
+                            <li>Estándar de referencia: Oleo (Miles Davis).</li>
+                        </ul>
                     </div>
                 </div>
 
                 <div class="module-card" onclick="toggleModule(this)">
                     <div class="module-header">
                         <h3 class="module-title">
-                            <span class="module-icon">🤯</span>MÓDULO 9 – Coltrane Changes: Fluidez sobre Cambios Complejos
+                            <span class="module-icon">🤯</span>MÓDULO 9 – Coltrane Changes
                         </h3>
                         <svg class="module-toggle-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
                     </div>
                     <div class="module-content">
                         <hr>
                         <p>
-                            <span class="font-semibold">Objetivo:</span> Desarrollar soltura y creatividad sobre progresiones Coltrane Changes.
+                            <span class="font-semibold">Objetivo:</span> Comprender los cambios simétricos de Coltrane y desarrollar recursos técnicos para improvisar sobre ellos.
                         </p>
-                        <div>
-                            <ul>
-                                <li>Patrones 1, 2, 3, 5</li>
-                                <li>Escala pentatónica secundaria aplicada a cambios simétricos</li>
-                                <li>Patrones de Jerry Bergonzi para dominio melódico-armónico</li>
-                                <li>Explicación de los cambios Coltrane y su origen</li>
-                            </ul>
-                        </div>
-                        <div>
-                            <p class="font-semibold" style="margin-bottom: 0.25rem; font-size: 0.875rem;">Standards:</p>
-                            <p style="font-size: 0.875rem;">Moment’s Notice, Giant Steps</p>
-                        </div>
+                        <p class="font-semibold" style="margin-top: 1rem;">Clase 1:</p>
+                        <ul>
+                            <li>Patrones 1, 2, 3 y 5.</li>
+                            <li>Construcción y práctica en diferentes tonalidades.</li>
+                            <li>Aplicación en tríadas y tétradas.</li>
+                            <li>Explicación de los cambios Coltrane: origen y análisis.</li>
+                            <li>Estructura simétrica y resolución armónica.</li>
+                            <li>Estándares de referencia: Countdown, Giant Steps (John Coltrane).</li>
+                        </ul>
+                        <p class="font-semibold" style="margin-top: 1rem;">Clase 2:</p>
+                        <ul>
+                            <li>Pentatónicas secundarias aplicadas a cambios simétricos.</li>
+                            <li>Patrones y frases inspiradas en Jerry Bergonzi.</li>
+                            <li>Práctica de intervalos y secuencias sobre los cambios.</li>
+                            <li>Estándares de referencia: Countdown, Giant Steps.</li>
+                        </ul>
                     </div>
                 </div>
 
                 <div class="module-card" onclick="toggleModule(this)">
                     <div class="module-header">
                         <h3 class="module-title">
-                            <span class="module-icon">🔮</span>MÓDULO 10 – Jazz Moderno: Menor Melódica y Arpegios Derivados
+                            <span class="module-icon">🔮</span>MÓDULO 10 – Jazz Moderno: La Menor Melódica y sus Colores
                         </h3>
                         <svg class="module-toggle-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
                     </div>
                     <div class="module-content">
                         <hr>
                         <p>
-                            <span class="font-semibold">Objetivo:</span> Usar la escala menor melódica y sus arpegios derivados para crear sonoridades modernas.
+                            <span class="font-semibold">Objetivo:</span> Explorar los modos derivados de la menor melódica, sus tensiones, y aplicarlos en improvisación y acompañamiento moderno.
                         </p>
-                        <div>
-                            <ul>
-                                <li>Modos de la escala menor melódica</li>
-                                <li>Modos como escala y como arpegios</li>
-                                <li>Drops de la escala menor melódica</li>
-                                <li>Arpegios derivados y estructuras cuartales</li>
-                            </ul>
-                        </div>
-                        <div>
-                            <p class="font-semibold" style="margin-bottom: 0.25rem; font-size: 0.875rem;">Standards:</p>
-                            <p style="font-size: 0.875rem;">Speak No Evil, Footprints, Infant Eyes (Wayne Shorter)</p>
-                        </div>
+                        <p class="font-semibold" style="margin-top: 1rem;">Clase 1 – Comprendiendo los Modos y sus Tensiones:</p>
+                        <ul>
+                            <li>Introducción a la escala menor melódica.</li>
+                            <li>Colores y tensiones de cada modo:
+                                <ul>
+                                    <li>Lydian ♯5.</li>
+                                    <li>Mixolidia ♭13.</li>
+                                    <li>Lydian ♯2.</li>
+                                    <li>Dórico ♭2.</li>
+                                    <li>Locrio ♮2.</li>
+                                    <li>Super Locrio.</li>
+                                </ul>
+                            </li>
+                            <li>Dónde aplicar cada modo.</li>
+                            <li>Estándares de referencia: ESP (Wayne Shorter), Stella by Starlight (Victor Young).</li>
+                        </ul>
+                        <p class="font-semibold" style="margin-top: 1rem;">Clase 2 – Arpegios y Voicings Modernos:</p>
+                        <ul>
+                            <li>Arpegios derivados de la menor melódica.</li>
+                            <li>Drops 2 y 3 aplicados.</li>
+                            <li>Estructuras cuartales y poliacordes.</li>
+                            <li>Integración en improvisación y acompañamiento.</li>
+                            <li>Estándares de referencia: Footprints (Wayne Shorter), ESP, Stella by Starlight.</li>
+                        </ul>
                     </div>
                 </div>
 
